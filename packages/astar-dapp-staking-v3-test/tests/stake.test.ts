@@ -1,6 +1,6 @@
 import {
   getConstants,
-  getClaimLockAndStakeBatch,
+  getStakeCall,
   initApi,
   getUnstakeCall,
   type ExtrinsicPayload,
@@ -39,10 +39,10 @@ afterEach(() => {
 });
 
 given("astar")(
-  "getClaimLockAndStakeBatch returns correct call",
+  "getStakeCall returns correct call",
   async ({ networks: { astar } }) => {
     initApi(astar.api);
-    const stakeBatch = await getClaimLockAndStakeBatch(
+    const stakeBatch = await getStakeCall(
       TEST_USER_ADDRESS,
       10_000_000_000_000_000_000n,
       [
@@ -66,49 +66,43 @@ given("astar")(
 );
 
 given("astar")(
-  "getClaimLockAndStakeBatch fails if stake info is not provided",
+  "getStakeCall fails if stake info is not provided",
   async ({ networks: { astar } }) => {
     initApi(astar.api);
-    await expect(
-      getClaimLockAndStakeBatch(TEST_USER_ADDRESS, 1n, [])
-    ).rejects.toThrow("No stake info provided.");
+    await expect(getStakeCall(TEST_USER_ADDRESS, 1n, [])).rejects.toThrow(
+      "No stake info provided."
+    );
   }
 );
 
 given("astar")(
-  "getClaimLockAndStakeBatch fails if stake info has invalid values",
+  "getStakeCall fails if stake info has invalid values",
   async ({ networks: { astar } }) => {
     initApi(astar.api);
 
     // Staker address is not provided
     await expect(
-      getClaimLockAndStakeBatch("", 1n, [{ address: "", amount: 1n }])
+      getStakeCall("", 1n, [{ address: "", amount: 1n }])
     ).rejects.toThrow("Staker address is not provided or invalid.");
 
     // Staker address is invalid (H160 address is provided)
     await expect(
-      getClaimLockAndStakeBatch(TEST_CONTRACT_1, 1n, [
-        { address: "", amount: 1n },
-      ])
+      getStakeCall(TEST_CONTRACT_1, 1n, [{ address: "", amount: 1n }])
     ).rejects.toThrow("Staker address is not provided or invalid.");
 
     // dApp address is not provided
     await expect(
-      getClaimLockAndStakeBatch(TEST_USER_ADDRESS, 1n, [
-        { address: "", amount: 1n },
-      ])
+      getStakeCall(TEST_USER_ADDRESS, 1n, [{ address: "", amount: 1n }])
     ).rejects.toThrow("dApp address is not provided or invalid");
 
     // dApp address is invalid
     await expect(
-      getClaimLockAndStakeBatch(TEST_USER_ADDRESS, 1n, [
-        { address: "zzzzz", amount: 1n },
-      ])
+      getStakeCall(TEST_USER_ADDRESS, 1n, [{ address: "zzzzz", amount: 1n }])
     ).rejects.toThrow("dApp address is not provided or invalid zzzzz");
 
     // Stake amount is not provided
     await expect(
-      getClaimLockAndStakeBatch(TEST_USER_ADDRESS, 1n, [
+      getStakeCall(TEST_USER_ADDRESS, 1n, [
         { address: TEST_CONTRACT_1, amount: 0n },
       ])
     ).rejects.toThrow("Stake amount must be greater than 0.");
@@ -116,43 +110,33 @@ given("astar")(
     // Stake amount is lower than the minimum
     const constants = await getConstants();
     await expect(
-      getClaimLockAndStakeBatch(
-        TEST_USER_ADDRESS,
-        100_000_000_000_000_000_000n,
-        [{ address: NON_STAKED_CONTRACT, amount: 100_000_000_000_000_000_000n }]
-      )
+      getStakeCall(TEST_USER_ADDRESS, 100_000_000_000_000_000_000n, [
+        { address: NON_STAKED_CONTRACT, amount: 100_000_000_000_000_000_000n },
+      ])
     ).rejects.toThrow(
       `Minimum staking amount is ${constants.minStakeAmountToken} tokens per dApp.`
     );
 
     // dApp is not registered for staking
     await expect(
-      getClaimLockAndStakeBatch(
-        TEST_USER_ADDRESS,
-        500_000_000_000_000_000_000n,
-        [
-          {
-            address: NON_REGISTERED_CONTRACT,
-            amount: 500_000_000_000_000_000_000n,
-          },
-        ]
-      )
+      getStakeCall(TEST_USER_ADDRESS, 500_000_000_000_000_000_000n, [
+        {
+          address: NON_REGISTERED_CONTRACT,
+          amount: 500_000_000_000_000_000_000n,
+        },
+      ])
     ).rejects.toThrow(
       `The dApp ${NON_REGISTERED_CONTRACT} is not registered for dApp staking.`
     );
 
     // Account must hold more than minBalanceAfterStaking tokens after staking
     await expect(
-      getClaimLockAndStakeBatch(
-        TEST_USER_ADDRESS,
-        30_000_000_000_000_000_000n,
-        [
-          {
-            address: ALREADY_STAKED_CONTRACT,
-            amount: 30_000_000_000_000_000_000n,
-          },
-        ]
-      )
+      getStakeCall(TEST_USER_ADDRESS, 30_000_000_000_000_000_000n, [
+        {
+          address: ALREADY_STAKED_CONTRACT,
+          amount: 30_000_000_000_000_000_000n,
+        },
+      ])
     ).rejects.toThrow(
       `Account must hold more than ${constants.minBalanceAfterStaking} transferable tokens after you stake.`
     );

@@ -28,7 +28,18 @@ import {
 import type { PalletDappStakingV3DAppInfo } from "../models/chain";
 import { getBalance } from "./system";
 
-export async function getClaimLockAndStakeBatch(
+/**
+ * Gets batch call containing the following calls:
+ *  - Claim staker and bonus rewards
+ *  - Lock tokens
+ *  - Cleanup expired entries id user reached maxNumberOfStakedContracts
+ *  - Stake tokens
+ * @param stakerAddress Staker address
+ * @param amountToLock Amount to lock in wei
+ * @param stakeInfo Stake info array containing dApp address and amount to stake (it is possible to stake to multiple dApps in one call)
+ * @returns The batch call
+ */
+export async function getStakeCall(
   stakerAddress: string,
   amountToLock: bigint,
   stakeInfo: StakeInfo[]
