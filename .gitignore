@@ -1,0 +1,14 @@
+# Dependency directories
+node_modules/
+
+#Build directory
+build/
+
+# Output of 'npm pack'
+*.tgz
+
+# Test database
+*.sqlite*
+
+# Some macOS stuff
+.DS_Store

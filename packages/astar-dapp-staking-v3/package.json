@@ -1,0 +1,15 @@
+{
+  "name": "@astar-network/dapp-staking-v3",
+  "version": "0.0.2",
+  "description": "Astar dApp staking v3 package",
+  "main": "build/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc --build --verbose"
+  },
+  "peerDependencies": {
+    "@polkadot/api": "^12.2.1"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@astar-network/dapp-staking-v3-test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "test": "LOG_LEVEL=error vitest"
+  },
+  "dependencies": {
+    "@acala-network/chopsticks": "^0.14.2-1",
+    "@acala-network/chopsticks-testing": "^0.14.2-1",
+    "@astar-network/dapp-staking-v3": "^0.0.2",
+    "@polkadot/api": "^12.2.1",
+    "lodash": "^4.17.21",
+    "unplugin-swc": "^1.5.1",
+    "vitest": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.7",
+    "typescript": "^5.6.2"
+  }
+}
