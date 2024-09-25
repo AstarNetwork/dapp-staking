@@ -213,13 +213,49 @@ export async function canStake(
   return [true, ""];
 }
 
+/**
+ * Gets batch call containing the following calls:
+ *  - Claim staker and bonus rewards
+ *  - Unstake tokens
+ *  - Unlock tokens
+ * @param stakerAddress
+ * @param contractAddress
+ * @param amount
+ * @returns
+ */
 export async function getUnstakeCall(
+  stakerAddress: string,
   contractAddress: string,
   amount: bigint
 ): Promise<ExtrinsicPayload> {
   const api = await getApi();
-  return api.tx.dappStaking.unstake(
-    getDappAddressEnum(contractAddress),
-    amount
+
+  const claimStakerCalls = await getClaimStakerAndBonusRewardsCalls(
+    stakerAddress
   );
+
+  const unstakeCalls = [
+    api.tx.dappStaking.unstake(getDappAddressEnum(contractAddress), amount),
+    api.tx.dappStaking.unlock(amount),
+  ];
+
+  const batch = await batchCalls([...claimStakerCalls, ...unstakeCalls]);
+
+  return batch;
+}
+
+async function getClaimStakerAndBonusRewardsCalls(
+  stakerAddress: string
+): Promise<ExtrinsicPayload[]> {
+  const claimStakerCalls = await getClaimStakerRewardsCall(stakerAddress);
+  const claimBonusCalls = await getClaimBonusRewardsCalls(stakerAddress);
+
+  if (!claimStakerCalls && !claimBonusCalls) {
+    return [];
+  }
+
+  return [
+    ...(claimStakerCalls ? claimStakerCalls : []),
+    ...(claimBonusCalls ? claimBonusCalls : []),
+  ];
 }

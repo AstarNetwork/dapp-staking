@@ -66,5 +66,6 @@ TODO all public calls descriptions
 
   - Find good test case for staker rewards (Just wait for an era to pass and update block number in .env)
   - Bonus reward - find a suitable account
+    - getUnstakeCall needs also account with bonus rewards
 
 - Use `i18n` or create `consts` for all strings

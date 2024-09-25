@@ -242,15 +242,21 @@ given("astar")(
   "getUnstakeCall returns correct call",
   async ({ networks: { astar } }) => {
     initApi(astar.api);
-    const call = await getUnstakeCall(
+    const unstakeBatch = await getUnstakeCall(
+      TEST_USER_ADDRESS,
       TEST_CONTRACT_1,
       10_000_000_000_000_000_000n
     );
 
-    expect(call.method.method).toBe("unstake");
-    expect(call.method.args[0].toString()).toBe(
+    // TODO make claim rewards to be part of the batch
+    const calls = unstakeBatch.method.args[0] as unknown as ExtrinsicPayload[];
+    expect(calls.length).toBe(2);
+    expect(calls[0].method).toBe("unstake");
+    expect(calls[0].args[0].toString()).toBe(
       JSON.stringify(getDappAddressEnum(TEST_CONTRACT_1)).toLowerCase()
     );
-    expect(call.method.args[1].toString()).toBe("10000000000000000000");
+    expect(calls[0].args[1].toString()).toBe("10000000000000000000");
+    expect(calls[1].method).toBe("unlock");
+    expect(calls[1].args[0].toString()).toBe("10000000000000000000");
   }
 );
