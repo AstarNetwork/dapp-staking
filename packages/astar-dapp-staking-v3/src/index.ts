@@ -19,4 +19,4 @@ export { initApi, ExtrinsicPayload } from "./logic/util";
 
 export { getBalance } from "./logic/system";
 
-export { getStakerApr } from "./logic/apr";
+export { getStakerApr, getBonusApr } from "./logic/apr";

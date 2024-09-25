@@ -5,7 +5,7 @@ import {
   type ProtocolState,
 } from "../models/library";
 import { getTotalIssuance } from "./balances";
-import { getInflationParams } from "./inflation";
+import { getInflationConfiguration, getInflationParams } from "./inflation";
 import { getCurrentEraInfo, getEraLengths, getProtocolState } from "./query";
 import { getBlockTimeInSeconds } from "./system";
 import { weiToToken } from "./util";
@@ -49,6 +49,39 @@ export async function getStakerApr(block?: number): Promise<number> {
   return stakerApr;
 }
 
+export async function getBonusApr(
+  simulatedVoteAmount: number = 1000,
+  block?: number
+): Promise<{ value: number; simulatedBonusPerPeriod: number }> {
+  const [
+    inflationConfiguration,
+    eraLengths,
+    eraInfo,
+    protocolState,
+    blockTime,
+  ] = await Promise.all([
+    getInflationConfiguration(block),
+    getEraLengths(block),
+    getCurrentEraInfo(block),
+    getProtocolState(block),
+    getBlockTimeInSeconds(block),
+  ]);
+
+  const cyclesPerYear = getCyclesPerYear(eraLengths, blockTime);
+
+  const formattedBonusRewardsPoolPerPeriod = weiToToken(
+    inflationConfiguration.bonusRewardPoolPerPeriod
+  );
+  const voteAmount = getVoteAmount(protocolState, eraInfo);
+  const bonusPercentPerPeriod = formattedBonusRewardsPoolPerPeriod / voteAmount;
+  const simulatedBonusPerPeriod = simulatedVoteAmount * bonusPercentPerPeriod;
+  const periodsPerYear = eraLengths.periodsPerCycle * cyclesPerYear;
+  const simulatedBonusAmountPerYear = simulatedBonusPerPeriod * periodsPerYear;
+  const bonusApr = (simulatedBonusAmountPerYear / simulatedVoteAmount) * 100;
+
+  return { value: bonusApr, simulatedBonusPerPeriod };
+}
+
 function getCyclesPerYear(
   eraLength: EraLengths,
   blockTimeInSeconds: number
@@ -78,4 +111,14 @@ function getStakeAmount(
   );
 
   return currentStakeAmount;
+}
+
+function getVoteAmount(protocolState: ProtocolState, eraInfo: EraInfo): number {
+  const currentVoteAmount = weiToToken(
+    protocolState.periodInfo.subperiod === PeriodType.Voting
+      ? eraInfo.nextStakeAmount?.voting ?? BigInt(0)
+      : eraInfo.currentStakeAmount.voting
+  );
+
+  return currentVoteAmount;
 }

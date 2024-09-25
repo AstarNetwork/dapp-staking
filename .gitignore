@@ -12,3 +12,6 @@ build/
 
 # Some macOS stuff
 .DS_Store
+
+# Build info
+tsconfig.tsbuildinfo
