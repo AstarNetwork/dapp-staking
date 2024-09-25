@@ -13,10 +13,10 @@ export {
   getClaimBonusRewardsCalls,
 } from "./logic/rewards";
 
-export { getClaimLockAndStakeBatch, getUnstakeCall } from "./logic/stake";
+export { getStakeCall, getUnstakeCall } from "./logic/stake";
 
 export { initApi, ExtrinsicPayload } from "./logic/util";
 
 export { getBalance } from "./logic/system";
 
-export { getStakerApr } from "./logic/apr";
+export { getStakerApr, getBonusApr } from "./logic/apr";
