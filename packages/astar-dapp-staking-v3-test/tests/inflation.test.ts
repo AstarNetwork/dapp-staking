@@ -2,7 +2,7 @@ import { initApi } from "@astar-network/dapp-staking-v3";
 import {
   getInflationConfiguration,
   getInflationParams,
-} from "@astar-network/dapp-staking-v3/build/logic/inflation";
+} from "@astar-network/dapp-staking-v3";
 import { given } from "../helpers";
 import { expect } from "vitest";
 

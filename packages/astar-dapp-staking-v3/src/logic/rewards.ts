@@ -1,4 +1,8 @@
-import type { BonusRewards, StakerRewards } from "../models/library";
+import type {
+  BonusRewards,
+  StakerRewards,
+  ExtrinsicPayload,
+} from "../models/library";
 import {
   getAccountLedger,
   getConstants,
@@ -7,7 +11,7 @@ import {
   getProtocolState,
   getStakerInfo,
 } from "./query";
-import { getApi, getDappAddressEnum, type ExtrinsicPayload } from "./util";
+import { getApi, getDappAddressEnum } from "../utils";
 
 export async function getClaimStakerRewardsCall(
   senderAddress: string

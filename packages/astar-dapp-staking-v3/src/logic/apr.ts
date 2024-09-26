@@ -8,7 +8,7 @@ import { getTotalIssuance } from "./balances";
 import { getInflationConfiguration, getInflationParams } from "./inflation";
 import { getCurrentEraInfo, getEraLengths, getProtocolState } from "./query";
 import { getBlockTimeInSeconds } from "./system";
-import { weiToToken } from "./util";
+import { weiToToken } from "../utils";
 
 export async function getStakerApr(block?: number): Promise<number> {
   const [

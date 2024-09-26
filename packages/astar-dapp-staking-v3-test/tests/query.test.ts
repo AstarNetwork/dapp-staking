@@ -8,7 +8,7 @@ import {
   initApi,
 } from "@astar-network/dapp-staking-v3";
 import { TEST_USER_ADDRESS } from "./constants";
-import { getEraLengths } from "@astar-network/dapp-staking-v3/build/logic/query";
+import { getEraLengths } from "@astar-network/dapp-staking-v3";
 
 given("astar")(
   "getProtocolState returns correct values",

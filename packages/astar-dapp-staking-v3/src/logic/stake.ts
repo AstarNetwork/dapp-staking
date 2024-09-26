@@ -4,6 +4,7 @@ import {
   PeriodType,
   type ProtocolState,
   type StakeInfo,
+  type ExtrinsicPayload,
 } from "../models/library";
 import {
   getAccountLedger,
@@ -23,8 +24,7 @@ import {
   getDappAddressEnum,
   isValidEthereumAddress,
   isValidPolkadotAddress,
-  type ExtrinsicPayload,
-} from "./util";
+} from "../utils";
 import type { PalletDappStakingV3DAppInfo } from "../models/chain";
 import { getBalance } from "./system";
 

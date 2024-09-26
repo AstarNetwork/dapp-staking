@@ -1,5 +1,5 @@
 import type { u128 } from "@polkadot/types";
-import { getApi } from "./util";
+import { getApi } from "../utils";
 
 export async function getTotalIssuance(blockNumber?: number): Promise<bigint> {
   const api = await getApi(blockNumber);

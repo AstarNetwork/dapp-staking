@@ -25,7 +25,7 @@ import {
   mapsStakerInfo,
   mapToProtocolStateModel,
 } from "../models/mappers";
-import { bytesToNumber, getApi, isValidEthereumAddress } from "./util";
+import { bytesToNumber, getApi, isValidEthereumAddress } from "../utils";
 import { ERA_LENGTHS } from "../constants";
 
 /**
@@ -39,6 +39,33 @@ export async function getProtocolState(block?: number): Promise<ProtocolState> {
     await api.query.dappStaking.activeProtocolState<PalletDappStakingV3ProtocolState>();
 
   return mapToProtocolStateModel(state);
+}
+
+// Unsubscribe function ref for the protocol state changes.
+let unsubscribeProtocolState: () => void | undefined;
+
+/**
+ * Subscribes to protocol state changes.
+ * @param callback Callback to be called when the state changes.
+ * @returns Function to unsubscribe from the state changes.
+ */
+export async function subscribeToProtocolStateChanges(
+  callback: (state: ProtocolState) => void
+): Promise<() => void> {
+  const api = await getApi();
+
+  if (unsubscribeProtocolState) {
+    unsubscribeProtocolState();
+  }
+
+  unsubscribeProtocolState = (await api.query.dappStaking.activeProtocolState(
+    (state: PalletDappStakingV3ProtocolState) => {
+      callback(mapToProtocolStateModel(state));
+    }
+  )) as unknown as () => void;
+  // Not sure why the call above returns Codec instead of a function or StorageEntryPromiseOverloads.
+
+  return unsubscribeProtocolState;
 }
 
 /**

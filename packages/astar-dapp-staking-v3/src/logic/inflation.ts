@@ -7,7 +7,7 @@ import {
   mapInflationConfiguration,
   mapInflationParams,
 } from "../models/mappers";
-import { getApi } from "./util";
+import { getApi } from "../utils";
 
 export async function getInflationConfiguration(
   block?: number

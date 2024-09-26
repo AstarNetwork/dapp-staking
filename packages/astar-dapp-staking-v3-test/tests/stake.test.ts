@@ -3,9 +3,9 @@ import {
   getStakeCall,
   initApi,
   getUnstakeCall,
-  type ExtrinsicPayload,
+  canStake,
 } from "@astar-network/dapp-staking-v3";
-import { canStake } from "@astar-network/dapp-staking-v3/build/logic/stake";
+import type { ExtrinsicPayload } from "@astar-network/dapp-staking-v3/types";
 import { given } from "../helpers";
 import { expect, afterEach, vi } from "vitest";
 import {
@@ -20,8 +20,8 @@ import {
   PeriodType,
   type AccountLedger,
   type ProtocolState,
-} from "@astar-network/dapp-staking-v3/build/models/library";
-import { getDappAddressEnum } from "@astar-network/dapp-staking-v3/build/logic/util";
+} from "@astar-network/dapp-staking-v3/types";
+import { getDappAddressEnum } from "@astar-network/dapp-staking-v3/utils";
 
 const stakeInfo = [
   {

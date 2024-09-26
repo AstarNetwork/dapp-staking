@@ -27,7 +27,7 @@ import type {
   SingularStakingInfo,
   StakeAmount,
 } from "../library";
-import { getContractAddress } from "../../logic/util";
+import { getContractAddress } from "../../utils";
 
 export function mapToProtocolStateModel(
   state: PalletDappStakingV3ProtocolState

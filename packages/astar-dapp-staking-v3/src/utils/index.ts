@@ -7,12 +7,9 @@ import {
 } from "@polkadot/util-crypto";
 import { hexToU8a, u8aToNumber, isHex } from "@polkadot/util";
 import type { Bytes } from "@polkadot/types";
-import type { SubmittableExtrinsic } from "@polkadot/api/types";
 import type { SmartContractAddress } from "../models/chain";
-import type { AccountInfo } from "../models/library";
+import type { AccountInfo, ExtrinsicPayload } from "../models/library";
 import { CHAIN_DECIMALS, EXISTENTIAL_DEPOSIT } from "../constants";
-
-export type ExtrinsicPayload = SubmittableExtrinsic<"promise">;
 
 export function getDappAddressEnum(address: string) {
   if (isValidEthereumAddress(address)) {
