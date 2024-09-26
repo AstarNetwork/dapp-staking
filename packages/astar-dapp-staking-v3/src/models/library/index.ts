@@ -1,6 +1,10 @@
+import { SubmittableExtrinsic } from "@polkadot/api/types";
+
 type PeriodNumber = number;
 type EraNumber = number;
 type BlockNumber = number;
+
+export type ExtrinsicPayload = SubmittableExtrinsic<"promise">;
 
 export enum PeriodType {
   Voting = "Voting",

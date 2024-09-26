@@ -2,7 +2,7 @@ import { expect } from "vitest";
 import { initApi, getBalance } from "@astar-network/dapp-staking-v3";
 import { given } from "../helpers";
 import { TEST_USER_ADDRESS } from "./constants";
-import { getBlockTimeInSeconds } from "@astar-network/dapp-staking-v3/build/logic/system";
+import { getBlockTimeInSeconds } from "@astar-network/dapp-staking-v3";
 
 given("astar")(
   "getBalance returns correct values",

@@ -6,6 +6,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "exports": {
+    ".": "./build/index.js",
+    "./types": "./build/models/library/index.js",
+    "./utils": "./build/utils/index.js"
+  },
   "scripts": {
     "build": "tsc --build --verbose"
   },

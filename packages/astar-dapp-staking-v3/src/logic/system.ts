@@ -2,7 +2,7 @@ import type { u64 } from "@polkadot/types";
 import type { FrameSystemAccountInfo } from "../models/chain";
 import type { AccountInfo } from "../models/library";
 import { mapBalanceInfo } from "../models/mappers";
-import { getApi } from "./util";
+import { getApi } from "../utils";
 import { ORIGINAL_BLOCK_TIME } from "../constants";
 
 export async function getBalance(address: string): Promise<AccountInfo> {

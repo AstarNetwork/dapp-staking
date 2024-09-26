@@ -1,5 +1,5 @@
 import { initApi } from "@astar-network/dapp-staking-v3";
-import { getTotalIssuance } from "@astar-network/dapp-staking-v3/build/logic/balances";
+import { getTotalIssuance } from "@astar-network/dapp-staking-v3";
 import { given } from "../helpers";
 import { expect } from "vitest";
 

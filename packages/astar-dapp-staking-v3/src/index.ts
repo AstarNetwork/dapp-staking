@@ -1,9 +1,13 @@
+import { types } from "util";
+
 export {
   getProtocolState,
+  subscribeToProtocolStateChanges,
   getCurrentEraInfo,
   getStakerInfo,
   getAccountLedger,
   getConstants,
+  getEraLengths,
 } from "./logic/query";
 
 export {
@@ -13,10 +17,17 @@ export {
   getClaimBonusRewardsCalls,
 } from "./logic/rewards";
 
-export { getStakeCall, getUnstakeCall } from "./logic/stake";
+export { getStakeCall, getUnstakeCall, canStake } from "./logic/stake";
 
-export { initApi, ExtrinsicPayload } from "./logic/util";
+export { initApi } from "./utils";
 
-export { getBalance } from "./logic/system";
+export { getBalance, getBlockTimeInSeconds } from "./logic/system";
 
 export { getStakerApr, getBonusApr } from "./logic/apr";
+
+export {
+  getInflationParams,
+  getInflationConfiguration,
+} from "./logic/inflation";
+
+export { getTotalIssuance } from "./logic/balances";
