@@ -1,27 +1,26 @@
+import { expect, afterEach, vi } from "vitest";
 import {
   getConstants,
   getStakeCall,
   initApi,
-  getUnstakeCall,
   canStake,
 } from "@astar-network/dapp-staking-v3";
-import type { ExtrinsicPayload } from "@astar-network/dapp-staking-v3/types";
-import { given } from "../helpers";
-import { expect, afterEach, vi } from "vitest";
-import {
-  ALREADY_STAKED_CONTRACT,
-  NON_REGISTERED_CONTRACT,
-  NON_STAKED_CONTRACT,
-  TEST_CONTRACT_1,
-  TEST_CONTRACT_2,
-  TEST_USER_ADDRESS,
-} from "./constants";
 import {
   PeriodType,
   type AccountLedger,
   type ProtocolState,
+  type ExtrinsicPayload,
 } from "@astar-network/dapp-staking-v3/types";
-import { getDappAddressEnum } from "@astar-network/dapp-staking-v3/utils";
+import { given } from "../helpers";
+import {
+  ALREADY_STAKED_CONTRACT,
+  NON_REGISTERED_CONTRACT,
+  NON_STAKED_CONTRACT,
+  protocolStateMock,
+  TEST_CONTRACT_1,
+  TEST_CONTRACT_2,
+  TEST_USER_ADDRESS,
+} from "./constants";
 
 const stakeInfo = [
   {
@@ -183,17 +182,6 @@ given("astar")(
   }
 );
 
-const protocolStateMock: ProtocolState = {
-  era: 0,
-  maintenance: false,
-  nextEraStart: 0,
-  periodInfo: {
-    nextSubperiodStartEra: 0,
-    number: 0,
-    subperiod: PeriodType.BuildAndEarn,
-  },
-};
-
 given("astar")(
   "canStake fails if maintenance mode is enabled",
   async ({ networks: { astar } }) => {
@@ -235,28 +223,5 @@ given("astar")(
       false,
       "Period ends in the next era. It is not possible to stake in the last era of a period.",
     ]);
-  }
-);
-
-given("astar")(
-  "getUnstakeCall returns correct call",
-  async ({ networks: { astar } }) => {
-    initApi(astar.api);
-    const unstakeBatch = await getUnstakeCall(
-      TEST_USER_ADDRESS,
-      TEST_CONTRACT_1,
-      10_000_000_000_000_000_000n
-    );
-
-    // TODO make claim rewards to be part of the batch
-    const calls = unstakeBatch.method.args[0] as unknown as ExtrinsicPayload[];
-    expect(calls.length).toBe(2);
-    expect(calls[0].method).toBe("unstake");
-    expect(calls[0].args[0].toString()).toBe(
-      JSON.stringify(getDappAddressEnum(TEST_CONTRACT_1)).toLowerCase()
-    );
-    expect(calls[0].args[1].toString()).toBe("10000000000000000000");
-    expect(calls[1].method).toBe("unlock");
-    expect(calls[1].args[0].toString()).toBe("10000000000000000000");
   }
 );

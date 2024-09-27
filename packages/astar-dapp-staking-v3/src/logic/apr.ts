@@ -10,6 +10,11 @@ import { getCurrentEraInfo, getEraLengths, getProtocolState } from "./query";
 import { getBlockTimeInSeconds } from "./system";
 import { weiToToken } from "../utils";
 
+/**
+ * Calculates the staker APR
+ * @param block Block to query the state at. If not provided, state for the current block will be returned.
+ * @returns Staker APR %
+ */
 export async function getStakerApr(block?: number): Promise<number> {
   const [
     totalIssuance,
@@ -49,8 +54,14 @@ export async function getStakerApr(block?: number): Promise<number> {
   return stakerApr;
 }
 
+/**
+ * Calculates the bonus APR
+ * @param simulatedVoteAmount Simulated vote amount to calculate the APR for
+ * @param block Block to query the state at. If not provided, state for the current block will be returned.
+ * @returns Bonus APR %
+ */
 export async function getBonusApr(
-  simulatedVoteAmount: number = 1000,
+  simulatedVoteAmount = 1000,
   block?: number
 ): Promise<{ value: number; simulatedBonusPerPeriod: number }> {
   const [

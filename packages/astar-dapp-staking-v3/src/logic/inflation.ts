@@ -9,6 +9,11 @@ import {
 } from "../models/mappers";
 import { getApi } from "../utils";
 
+/**
+ * Gets the active inflation configuration.
+ * @param block Block to query the state at. If not provided, state for the current block will be returned.
+ * @returns Inflation configuration.
+ */
 export async function getInflationConfiguration(
   block?: number
 ): Promise<InflationConfiguration> {
@@ -19,6 +24,11 @@ export async function getInflationConfiguration(
   return mapInflationConfiguration(data);
 }
 
+/**
+ * Gets static inflation parameters used to calculate inflation configuration.
+ * @param block Block to query the state at. If not provided, state for the current block will be returned.
+ * @returns Static inflation parameters.
+ */
 export async function getInflationParams(
   block?: number
 ): Promise<InflationParam> {

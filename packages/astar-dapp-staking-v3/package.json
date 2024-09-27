@@ -1,7 +1,7 @@
 {
   "name": "@astar-network/dapp-staking-v3",
-  "version": "0.0.2",
-  "description": "Astar dApp staking v3 package",
+  "version": "1.0.0",
+  "description": "Astar dApp staking v3 library",
   "main": "build/index.js",
   "publishConfig": {
     "access": "public"

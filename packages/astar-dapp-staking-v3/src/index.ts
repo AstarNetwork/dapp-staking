@@ -17,7 +17,9 @@ export {
   getClaimBonusRewardsCalls,
 } from "./logic/rewards";
 
-export { getStakeCall, getUnstakeCall, canStake } from "./logic/stake";
+export { getStakeCall, canStake } from "./logic/stake";
+
+export { getUnstakeCall, canUnstake } from "./logic/unstake";
 
 export { initApi } from "./utils";
 
