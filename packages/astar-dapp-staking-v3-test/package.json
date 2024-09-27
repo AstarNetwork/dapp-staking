@@ -10,7 +10,7 @@
   "dependencies": {
     "@acala-network/chopsticks": "^0.14.2-1",
     "@acala-network/chopsticks-testing": "^0.14.2-1",
-    "@astar-network/dapp-staking-v3": "^0.0.2",
+    "@astar-network/dapp-staking-v3": "^1.0.0",
     "@polkadot/api": "^12.2.1",
     "lodash": "^4.17.21",
     "unplugin-swc": "^1.5.1",

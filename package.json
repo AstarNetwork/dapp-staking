@@ -14,7 +14,7 @@
     "test": "npm run build & npm run test --workspace ./packages/astar-dapp-staking-v3-test "
   },
   "dependencies": {
-    "@astar-network/dapp-staking-v3": "^0.0.2",
+    "@astar-network/dapp-staking-v3": "^1.0.0",
     "@polkadot/api": "^12.2.1",
     "typescript": "^5.6.2"
   },
