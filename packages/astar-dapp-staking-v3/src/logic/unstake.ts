@@ -73,6 +73,16 @@ async function getClaimStakerAndBonusRewardsCalls(
   ];
 }
 
+/**
+ * Checks if staker can un-stake the given amount from the dApp.
+ * @param stakerAddress The staker address.
+ * @param dappAddress The dApp to un-stake from
+ * @param amount The amount to un-stake
+ * @param getProtocolStateCall Method to get the protocol state (optional, used for testing)
+ * @param getStakerInfoCall Method to get the staker info (optional, used for testing)
+ * @returns A tuple containing a boolean indicating if the staker can un-stake and a message explaining a reason.
+ * If the method returns true, the second element of the tuple can contain a warning message or it is empty.
+ */
 export async function canUnstake(
   stakerAddress: string,
   dappAddress: string,

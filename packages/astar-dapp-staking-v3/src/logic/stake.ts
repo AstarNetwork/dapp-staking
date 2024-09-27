@@ -108,7 +108,15 @@ async function shouldCleanupExpiredEntries(
   return expiredEntries > 0;
 }
 
-// Injecting methods for testing
+/**
+ * Checks if the staker can stake the provided stakes.
+ * @param stakerAddress Staker address
+ * @param stakes Stakes array containing dApp address and amount to stake.
+ * @param getAccountLedgerCall Method to get the account ledger (optional, used for testing).
+ * @param getProtocolStateCall Method to get the protocol state (optional, used for testing).
+ * @returns A tuple containing a boolean indicating if the staker can stake and a message explaining a reason.
+ * If the method returns true, the second element of the tuple can contain a warning message or it is empty.
+ */
 export async function canStake(
   stakerAddress: string,
   stakes: StakeInfo[],

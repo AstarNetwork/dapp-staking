@@ -1,5 +1,3 @@
-import { types } from "util";
-
 export {
   getProtocolState,
   subscribeToProtocolStateChanges,
@@ -33,3 +31,10 @@ export {
 } from "./logic/inflation";
 
 export { getTotalIssuance } from "./logic/balances";
+
+export {
+  AccountLedger,
+  UnlockingChunk,
+  AccountInfo,
+  AccountData,
+} from "./models/library";

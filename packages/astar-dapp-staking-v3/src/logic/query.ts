@@ -42,7 +42,7 @@ export async function getProtocolState(block?: number): Promise<ProtocolState> {
 }
 
 // Unsubscribe function ref for the protocol state changes.
-let unsubscribeProtocolState: () => void | undefined;
+let unsubscribeProtocolState: (() => void) | undefined;
 
 /**
  * Subscribes to protocol state changes.
@@ -107,6 +107,11 @@ export function getStake(
   return stakerInfo.get(isEvmAddress ? dappAddress.toLowerCase() : dappAddress);
 }
 
+/**
+ * Gets account ledger information for the given address.
+ * @param address Staker address.
+ * @returns Account ledger instance.
+ */
 export async function getAccountLedger(
   address: string
 ): Promise<AccountLedger> {

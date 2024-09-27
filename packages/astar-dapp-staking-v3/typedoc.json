@@ -1,0 +1,6 @@
+{
+  "entryPoints": ["packages/astar-dapp-staking-v3/src"],
+  "out": "docs",
+  "plugin": ["typedoc-plugin-markdown"],
+  "exclude": ["**/node_modules/**", "**/*.test.ts"]
+}

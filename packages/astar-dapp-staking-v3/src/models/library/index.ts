@@ -1,4 +1,4 @@
-import { SubmittableExtrinsic } from "@polkadot/api/types";
+import type { SubmittableExtrinsic } from "@polkadot/api/types";
 
 type PeriodNumber = number;
 type EraNumber = number;
@@ -42,16 +42,44 @@ export interface SingularStakingInfo {
   readonly loyalStaker: boolean;
 }
 
+/**
+ * Account ledger.
+ */
 export interface AccountLedger {
+  /**
+   * Total tokens locked in dApp staking. Locked tokens can be used for staking
+   */
   readonly locked: bigint;
+  /**
+   * Vector of all the unlocking chunks. This is also considered locked but cannot be used for staking.
+   */
   readonly unlocking: UnlockingChunk[];
+  /**
+   * Stake information for a particular era.
+   */
   readonly staked: StakeAmount;
+  /**
+   * Stake information for the next era.
+   * This is needed since stake amount is only applicable from the next era after it's been staked.
+   */
   readonly stakedFuture?: StakeAmount;
+  /**
+   * Number of contracts staked by the account.
+   */
   readonly contractStakeCount: number;
 }
 
-interface UnlockingChunk {
+/**
+ * Tokens to be unlocked in some block.
+ */
+export interface UnlockingChunk {
+  /**
+   * Amount to be unlocked.
+   */
   readonly amount: bigint;
+  /**
+   * Block in which the unlocking period is finished for this chunk.
+   */
   readonly unlockBlock: bigint;
 }
 
@@ -109,7 +137,7 @@ export interface AccountInfo {
   readonly data: AccountData;
 }
 
-interface AccountData {
+export interface AccountData {
   readonly free: bigint;
   readonly reserved: bigint;
   readonly frozen: bigint;
