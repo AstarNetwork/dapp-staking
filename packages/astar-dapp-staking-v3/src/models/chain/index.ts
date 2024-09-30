@@ -24,7 +24,7 @@ interface PalletDappStakingV3PeriodInfo extends Struct {
   readonly nextSubperiodStartEra: Compact<u32>;
 }
 
-interface StakeAmount {
+export interface StakeAmount {
   readonly voting: bigint;
   readonly buildAndEarn: bigint;
   readonly era: number;
@@ -44,13 +44,6 @@ export interface PalletDappStakingV3ProtocolState extends Struct {
   readonly nextEraStart: Compact<u32>;
   readonly periodInfo: PalletDappStakingV3PeriodInfo;
   readonly maintenance: bool;
-}
-
-export interface EraInfo {
-  readonly totalLocked: bigint;
-  readonly unlocking: bigint;
-  readonly currentStakeAmount: StakeAmount;
-  readonly nextStakeAmount?: StakeAmount;
 }
 
 export interface PalletDappStakingV3EraInfo extends Struct {

@@ -33,6 +33,12 @@ export function getContractAddress(
 
 let api: ApiPromise;
 
+/**
+ * Initializes the library with the instance of the Polkadot `ApiPromise`.
+ *
+ * This function should be called once before any other function in the library.
+ * @param apiInstance `ApiPromise` instance.
+ */
 export function initApi(apiInstance: ApiPromise): void {
   api = apiInstance;
   console.log("Astar dApp staking v3 library has been initialized.");

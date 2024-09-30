@@ -1,3 +1,7 @@
+**@astar-network/dapp-staking-v3** • [**Docs**](globals.md)
+
+***
+
 # Astar dApp staking v3 library
 
 ## Intro
@@ -58,7 +62,7 @@ stakeTest()
 
 ## Available calls
 
-Full documentation is [here](docs/globals.md)
+Full documentation is [here](_media/globals.md)
 
 ## TODOs
 

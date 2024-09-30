@@ -12,9 +12,28 @@
     "./utils": "./build/utils/index.js"
   },
   "scripts": {
-    "build": "tsc --build --verbose"
+    "build": "tsc --build --verbose",
+    "docs": "typedoc"
   },
   "peerDependencies": {
     "@polkadot/api": "^12.2.1"
+  },
+  "devDependencies": {
+    "typedoc": "^0.26.7",
+    "typedoc-plugin-markdown": "^4.2.8"
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "src"
+    ],
+    "out": "docs",
+    "plugin": [
+      "typedoc-plugin-markdown"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/*.test.ts"
+    ],
+    "disableSources": true
   }
 }

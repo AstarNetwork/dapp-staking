@@ -1,5 +1,3 @@
-import { types } from "util";
-
 export {
   getProtocolState,
   subscribeToProtocolStateChanges,
@@ -12,8 +10,8 @@ export {
 
 export {
   getStakerRewards,
-  getClaimStakerRewardsCall,
-  getBonusRewards,
+  getClaimStakerRewardsCalls as getClaimStakerRewardsCall,
+  getBonusReward as getBonusRewards,
   getClaimBonusRewardsCalls,
 } from "./logic/rewards";
 
@@ -33,3 +31,15 @@ export {
 } from "./logic/inflation";
 
 export { getTotalIssuance } from "./logic/balances";
+
+export {
+  AccountLedger,
+  UnlockingChunk,
+  AccountInfo,
+  AccountData,
+  ExtrinsicPayload,
+  Constants,
+  EraInfo,
+  StakeAmount,
+  EraLengths,
+} from "./models/library";

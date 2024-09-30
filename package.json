@@ -9,9 +9,10 @@
   "scripts": {
     "build": "tsc --build --verbose",
     "start": "ts-node src/index.ts",
-    "pack:staking": "npm build & npm pack --workspace ./packages/astar-dapp-staking-v3 --pack-destination ./packages/astar-dapp-staking-v3",
-    "publish:staking": "npm build & npm publish --workspace ./packages/astar-dapp-staking-v3",
-    "test": "npm run build & npm run test --workspace ./packages/astar-dapp-staking-v3-test "
+    "staking:pack": "npm build & npm pack --workspace ./packages/astar-dapp-staking-v3 --pack-destination ./packages/astar-dapp-staking-v3",
+    "staking:publish": "npm build & npm publish --workspace ./packages/astar-dapp-staking-v3",
+    "staking:docs": "npm run docs  --workspace ./packages/astar-dapp-staking-v3",
+    "staking:test": "npm run build & npm run test --workspace ./packages/astar-dapp-staking-v3-test"
   },
   "dependencies": {
     "@astar-network/dapp-staking-v3": "^1.0.0",

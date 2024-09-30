@@ -1,4 +1,4 @@
-import { SubmittableExtrinsic } from "@polkadot/api/types";
+import type { SubmittableExtrinsic } from "@polkadot/api/types";
 
 type PeriodNumber = number;
 type EraNumber = number;
@@ -15,6 +15,28 @@ interface PeriodInfo {
   number: PeriodNumber;
   subperiod: PeriodType;
   nextSubperiodStartEra: EraNumber;
+}
+
+/**
+ * Era information.
+ */
+export interface EraInfo {
+  /**
+   * Tokens locked in the dApp staking.
+   */
+  readonly totalLocked: bigint;
+  /**
+   * Tokens that are unlocking. Counts in totalLocked.
+   */
+  readonly unlocking: bigint;
+  /**
+   *  Stake amount valid for ongoing era.
+   */
+  readonly currentStakeAmount: StakeAmount;
+  /**
+   * Stake amount valid from the next era.
+   */
+  readonly nextStakeAmount?: StakeAmount;
 }
 
 // General information & state of the dApp staking protocol.
@@ -42,28 +64,82 @@ export interface SingularStakingInfo {
   readonly loyalStaker: boolean;
 }
 
+/**
+ * Account ledger.
+ */
 export interface AccountLedger {
+  /**
+   * Total tokens locked in dApp staking. Locked tokens can be used for staking
+   */
   readonly locked: bigint;
+  /**
+   * Vector of all the unlocking chunks. This is also considered locked but cannot be used for staking.
+   */
   readonly unlocking: UnlockingChunk[];
+  /**
+   * Stake information for a particular era.
+   */
   readonly staked: StakeAmount;
+  /**
+   * Stake information for the next era.
+   * This is needed since stake amount is only applicable from the next era after it's been staked.
+   */
   readonly stakedFuture?: StakeAmount;
+  /**
+   * Number of contracts staked by the account.
+   */
   readonly contractStakeCount: number;
 }
 
-interface UnlockingChunk {
+/**
+ * Tokens to be unlocked in some block.
+ */
+export interface UnlockingChunk {
+  /**
+   * Amount to be unlocked.
+   */
   readonly amount: bigint;
+  /**
+   * Block in which the unlocking period is finished for this chunk.
+   */
   readonly unlockBlock: bigint;
 }
 
+/**
+ * dApp staking constants.
+ */
 export interface Constants {
+  /**
+   * Maximum length of the single era reward span entry.
+   */
   eraRewardSpanLength: number;
+  /**
+   * Number of periods for which the rewards are kept for claiming.
+   */
   rewardRetentionInPeriods: number;
+  /**
+   * Minimum amount of tokens that can be staked on a contract.
+   */
   minStakeAmount: bigint;
-  minStakeAmountToken?: number; // TODO set value
+  /**
+   * Minimum transferable balance after staking (10 tokens). Intended to prevent all account funds from being locked by staking operation.
+   */
   minBalanceAfterStaking: bigint;
+  /**
+   * Maximum number of staked contracts per staker account.
+   */
   maxNumberOfStakedContracts: number;
+  /**
+   * Maximum number of contracts in dApp staking.
+   */
   maxNumberOfContracts: number;
+  /**
+   * Maximum number of unlocking chunks per account.
+   */
   maxUnlockingChunks: number;
+  /**
+   * Number of standard eras to pass before unlocking chunk can be claimed.
+   */
   unlockingPeriod: number;
 }
 
@@ -73,9 +149,21 @@ export interface PeriodEndInfo {
   readonly finalEra: number;
 }
 
+/**
+ * Staker rewards.
+ */
 export interface StakerRewards {
+  /**
+   * Rewards amount.
+   */
   amount: bigint;
+  /**
+   * dApp staking period when rewards were earned.
+   */
   period: number;
+  /**
+   * Number of eras for which rewards can be claimed.
+   */
   eraCount: number;
 }
 
@@ -109,7 +197,7 @@ export interface AccountInfo {
   readonly data: AccountData;
 }
 
-interface AccountData {
+export interface AccountData {
   readonly free: bigint;
   readonly reserved: bigint;
   readonly frozen: bigint;
@@ -139,9 +227,16 @@ export interface InflationParam {
   readonly idealStakingRate: number;
 }
 
+/**
+ * Era lengths.
+ */
 export interface EraLengths {
+  /** Build and earn subperiod length in standard eras */
   standardErasPerBuildAndEarnPeriod: number;
+  /** Voting subperiod length in standard eras */
   standardErasPerVotingPeriod: number;
+  /** Standard era length in blocks */
   standardEraLength: number;
+  /** Number of dApp staking periods in an inflation cycle */
   periodsPerCycle: number;
 }
