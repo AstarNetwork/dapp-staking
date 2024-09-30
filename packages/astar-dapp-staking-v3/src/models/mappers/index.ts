@@ -2,7 +2,6 @@ import type { Option, StorageKey, Compact } from "@polkadot/types";
 import type { AnyTuple, Codec } from "@polkadot/types/types";
 import type { Perquintill } from "@polkadot/types/interfaces";
 import type {
-  EraInfo,
   FrameSystemAccountInfo,
   PalletDappStakingV3AccountLedger,
   PalletDappStakingV3EraInfo,
@@ -26,6 +25,7 @@ import type {
   ProtocolState,
   SingularStakingInfo,
   StakeAmount,
+  EraInfo,
 } from "../library";
 import { getContractAddress } from "../../utils";
 

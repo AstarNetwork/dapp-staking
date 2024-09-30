@@ -16,10 +16,6 @@ Tokens to be unlocked in some block.
 
 Amount to be unlocked.
 
-#### Defined in
-
-[models/library/index.ts:79](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/models/library/index.ts#L79)
-
 ***
 
 ### unlockBlock
@@ -27,7 +23,3 @@ Amount to be unlocked.
 > `readonly` **unlockBlock**: `bigint`
 
 Block in which the unlocking period is finished for this chunk.
-
-#### Defined in
-
-[models/library/index.ts:83](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/models/library/index.ts#L83)

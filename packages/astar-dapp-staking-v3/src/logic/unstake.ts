@@ -13,7 +13,7 @@ import {
 } from "./query";
 import {
   getClaimBonusRewardsCalls,
-  getClaimStakerRewardsCall,
+  getClaimStakerRewardsCalls,
 } from "./rewards";
 import { batchCalls, getApi, getDappAddressEnum } from "../utils";
 
@@ -60,7 +60,7 @@ export async function getUnstakeCall(
 async function getClaimStakerAndBonusRewardsCalls(
   stakerAddress: string
 ): Promise<ExtrinsicPayload[]> {
-  const claimStakerCalls = await getClaimStakerRewardsCall(stakerAddress);
+  const claimStakerCalls = await getClaimStakerRewardsCalls(stakerAddress);
   const claimBonusCalls = await getClaimBonusRewardsCalls(stakerAddress);
 
   if (!claimStakerCalls && !claimBonusCalls) {

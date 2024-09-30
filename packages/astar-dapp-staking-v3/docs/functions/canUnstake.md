@@ -38,7 +38,3 @@ Method to get the staker info (optional, used for testing)
 
 A tuple containing a boolean indicating if the staker can un-stake and a message explaining a reason.
 If the method returns true, the second element of the tuple can contain a warning message or it is empty.
-
-## Defined in
-
-[logic/unstake.ts:86](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/unstake.ts#L86)

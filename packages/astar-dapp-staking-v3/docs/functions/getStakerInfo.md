@@ -8,16 +8,19 @@
 
 > **getStakerInfo**(`stakerAddress`, `includePreviousPeriods`): `Promise`\<`Map`\<`string`, `SingularStakingInfo`\>\>
 
+Gets the staker information for the given address.
+The staker info contains info about all staker for the given address.
+
 ## Parameters
 
 • **stakerAddress**: `string`
 
+Staker address.
+
 • **includePreviousPeriods**: `boolean` = `false`
+
+If true, the staker info will contain info about all previous periods.
 
 ## Returns
 
 `Promise`\<`Map`\<`string`, `SingularStakingInfo`\>\>
-
-## Defined in
-
-[logic/query.ts:84](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/query.ts#L84)

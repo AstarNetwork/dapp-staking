@@ -13,11 +13,16 @@ import {
 } from "./query";
 import { getApi, getDappAddressEnum } from "../utils";
 
-export async function getClaimStakerRewardsCall(
-  senderAddress: string
+/**
+ * Gets calls needed to claim all staker rewards.
+ * @param stakerAddress Staker address.
+ * @returns Extrinsics to be signed and executed.
+ */
+export async function getClaimStakerRewardsCalls(
+  stakerAddress: string
 ): Promise<ExtrinsicPayload[] | undefined> {
   const { firstSpanIndex, lastSpanIndex, rewardsExpired, eraRewardSpanLength } =
-    await getStakerEraRange(senderAddress);
+    await getStakerEraRange(stakerAddress);
 
   if (rewardsExpired || Number.isNaN(firstSpanIndex)) {
     return undefined;
@@ -34,6 +39,11 @@ export async function getClaimStakerRewardsCall(
   return calls;
 }
 
+/**
+ * Calculates staker rewards for the given address.
+ * @param stakerAddress Staker address.
+ * @returns Staker rewards.
+ */
 export async function getStakerRewards(
   stakerAddress: string
 ): Promise<StakerRewards> {
@@ -173,16 +183,27 @@ function areRewardsExpired(
   return stakedPeriod < currentPeriod - rewardRetentionInPeriods;
 }
 
-export async function getBonusRewards(senderAddress: string): Promise<bigint> {
-  const result = await getBonusRewardsAndContractsToClaim(senderAddress);
+/**
+ * Calculated bonus reward for the given address.
+ * @param stakerAddress Staker address.
+ * @returns Bonus reward in wei
+ */
+export async function getBonusReward(stakerAddress: string): Promise<bigint> {
+  const result = await getBonusRewardsAndContractsToClaim(stakerAddress);
 
   return result.amount;
 }
 
+/**
+ * Creates calls to be executed to claim bonus rewards.
+ * Bonus rewards should be claimed for each dApp contract separately.
+ * @param stakerAddress Staker address
+ * @returns Extrinsics to be signed and executed.
+ */
 export async function getClaimBonusRewardsCalls(
-  senderAddress: string
+  stakerAddress: string
 ): Promise<ExtrinsicPayload[] | undefined> {
-  const result = await getBonusRewardsAndContractsToClaim(senderAddress);
+  const result = await getBonusRewardsAndContractsToClaim(stakerAddress);
 
   if (result.contractsToClaim.size === 0) {
     return undefined;

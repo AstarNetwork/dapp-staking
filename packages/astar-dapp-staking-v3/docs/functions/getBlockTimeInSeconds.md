@@ -21,7 +21,3 @@ Block to get the info for (optional).
 `Promise`\<`number`\>
 
 Block time.
-
-## Defined in
-
-[logic/system.ts:25](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/system.ts#L25)

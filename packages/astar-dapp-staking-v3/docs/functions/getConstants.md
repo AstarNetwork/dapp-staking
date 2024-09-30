@@ -6,12 +6,12 @@
 
 # Function: getConstants()
 
-> **getConstants**(): `Promise`\<`Constants`\>
+> **getConstants**(): `Promise`\<[`Constants`](../interfaces/Constants.md)\>
+
+Gets all dApp staking constants.
 
 ## Returns
 
-`Promise`\<`Constants`\>
+`Promise`\<[`Constants`](../interfaces/Constants.md)\>
 
-## Defined in
-
-[logic/query.ts:127](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/query.ts#L127)
+Constants instance.

@@ -17,6 +17,28 @@ interface PeriodInfo {
   nextSubperiodStartEra: EraNumber;
 }
 
+/**
+ * Era information.
+ */
+export interface EraInfo {
+  /**
+   * Tokens locked in the dApp staking.
+   */
+  readonly totalLocked: bigint;
+  /**
+   * Tokens that are unlocking. Counts in totalLocked.
+   */
+  readonly unlocking: bigint;
+  /**
+   *  Stake amount valid for ongoing era.
+   */
+  readonly currentStakeAmount: StakeAmount;
+  /**
+   * Stake amount valid from the next era.
+   */
+  readonly nextStakeAmount?: StakeAmount;
+}
+
 // General information & state of the dApp staking protocol.
 export interface ProtocolState {
   // Ongoing era number.
@@ -83,15 +105,41 @@ export interface UnlockingChunk {
   readonly unlockBlock: bigint;
 }
 
+/**
+ * dApp staking constants.
+ */
 export interface Constants {
+  /**
+   * Maximum length of the single era reward span entry.
+   */
   eraRewardSpanLength: number;
+  /**
+   * Number of periods for which the rewards are kept for claiming.
+   */
   rewardRetentionInPeriods: number;
+  /**
+   * Minimum amount of tokens that can be staked on a contract.
+   */
   minStakeAmount: bigint;
-  minStakeAmountToken?: number; // TODO set value
+  /**
+   * Minimum transferable balance after staking (10 tokens). Intended to prevent all account funds from being locked by staking operation.
+   */
   minBalanceAfterStaking: bigint;
+  /**
+   * Maximum number of staked contracts per staker account.
+   */
   maxNumberOfStakedContracts: number;
+  /**
+   * Maximum number of contracts in dApp staking.
+   */
   maxNumberOfContracts: number;
+  /**
+   * Maximum number of unlocking chunks per account.
+   */
   maxUnlockingChunks: number;
+  /**
+   * Number of standard eras to pass before unlocking chunk can be claimed.
+   */
   unlockingPeriod: number;
 }
 
@@ -101,9 +149,21 @@ export interface PeriodEndInfo {
   readonly finalEra: number;
 }
 
+/**
+ * Staker rewards.
+ */
 export interface StakerRewards {
+  /**
+   * Rewards amount.
+   */
   amount: bigint;
+  /**
+   * dApp staking period when rewards were earned.
+   */
   period: number;
+  /**
+   * Number of eras for which rewards can be claimed.
+   */
   eraCount: number;
 }
 
@@ -167,9 +227,16 @@ export interface InflationParam {
   readonly idealStakingRate: number;
 }
 
+/**
+ * Era lengths.
+ */
 export interface EraLengths {
+  /** Build and earn subperiod length in standard eras */
   standardErasPerBuildAndEarnPeriod: number;
+  /** Voting subperiod length in standard eras */
   standardErasPerVotingPeriod: number;
+  /** Standard era length in blocks */
   standardEraLength: number;
+  /** Number of dApp staking periods in an inflation cycle */
   periodsPerCycle: number;
 }

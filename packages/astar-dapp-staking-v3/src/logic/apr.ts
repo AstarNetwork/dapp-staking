@@ -1,6 +1,6 @@
-import type { EraInfo } from "../models/chain";
 import {
   PeriodType,
+  type EraInfo,
   type EraLengths,
   type ProtocolState,
 } from "../models/library";
@@ -56,6 +56,7 @@ export async function getStakerApr(block?: number): Promise<number> {
 
 /**
  * Calculates the bonus APR
+ * Usera is eligible for dApp staking bonus if they stake during the voting period and didn't unstake until the end of staking period.
  * @param simulatedVoteAmount Simulated vote amount to calculate the APR for
  * @param block Block to query the state at. If not provided, state for the current block will be returned.
  * @returns Bonus APR %

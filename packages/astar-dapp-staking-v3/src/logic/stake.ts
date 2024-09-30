@@ -15,7 +15,7 @@ import {
 } from "./query";
 import {
   getClaimBonusRewardsCalls,
-  getClaimStakerRewardsCall,
+  getClaimStakerRewardsCalls,
 } from "./rewards";
 import {
   batchCalls,
@@ -56,7 +56,7 @@ export async function getStakeCall(
   const api = await getApi();
 
   // Claim staker rewards
-  const claimStakerCall = await getClaimStakerRewardsCall(stakerAddress);
+  const claimStakerCall = await getClaimStakerRewardsCalls(stakerAddress);
   claimStakerCall && calls.push(...claimStakerCall);
 
   // Claim bonus rewards
@@ -187,7 +187,7 @@ export async function canStake(
     ) {
       return [
         false,
-        `Minimum staking amount is ${constants.minStakeAmountToken} tokens per dApp.`,
+        `Minimum staking amount is ${constants.minStakeAmount} tokens per dApp.`,
       ];
     }
 

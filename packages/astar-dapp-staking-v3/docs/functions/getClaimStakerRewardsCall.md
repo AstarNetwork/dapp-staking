@@ -6,16 +6,18 @@
 
 # Function: getClaimStakerRewardsCall()
 
-> **getClaimStakerRewardsCall**(`senderAddress`): `Promise`\<`ExtrinsicPayload`[] \| `undefined`\>
+> **getClaimStakerRewardsCall**(`stakerAddress`): `Promise`\<[`ExtrinsicPayload`](../type-aliases/ExtrinsicPayload.md)[] \| `undefined`\>
+
+Gets calls needed to claim all staker rewards.
 
 ## Parameters
 
-• **senderAddress**: `string`
+• **stakerAddress**: `string`
+
+Staker address.
 
 ## Returns
 
-`Promise`\<`ExtrinsicPayload`[] \| `undefined`\>
+`Promise`\<[`ExtrinsicPayload`](../type-aliases/ExtrinsicPayload.md)[] \| `undefined`\>
 
-## Defined in
-
-[logic/rewards.ts:16](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/rewards.ts#L16)
+Extrinsics to be signed and executed.

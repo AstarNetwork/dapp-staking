@@ -10,8 +10,8 @@ export {
 
 export {
   getStakerRewards,
-  getClaimStakerRewardsCall,
-  getBonusRewards,
+  getClaimStakerRewardsCalls as getClaimStakerRewardsCall,
+  getBonusReward as getBonusRewards,
   getClaimBonusRewardsCalls,
 } from "./logic/rewards";
 
@@ -37,4 +37,9 @@ export {
   UnlockingChunk,
   AccountInfo,
   AccountData,
+  ExtrinsicPayload,
+  Constants,
+  EraInfo,
+  StakeAmount,
+  EraLengths,
 } from "./models/library";

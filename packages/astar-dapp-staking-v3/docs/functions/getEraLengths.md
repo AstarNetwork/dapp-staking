@@ -6,16 +6,18 @@
 
 # Function: getEraLengths()
 
-> **getEraLengths**(`block`?): `Promise`\<`EraLengths`\>
+> **getEraLengths**(`block`?): `Promise`\<[`EraLengths`](../interfaces/EraLengths.md)\>
+
+Gets duration of the era, voting and build and earn periods.
 
 ## Parameters
 
 • **block?**: `number`
 
+Block to query the state at. If not provided, state for the current block will be returned.
+
 ## Returns
 
-`Promise`\<`EraLengths`\>
+`Promise`\<[`EraLengths`](../interfaces/EraLengths.md)\>
 
-## Defined in
-
-[logic/query.ts:186](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/query.ts#L186)
+Era lengths

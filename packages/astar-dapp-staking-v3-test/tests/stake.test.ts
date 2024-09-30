@@ -113,7 +113,7 @@ given("astar")(
         { address: NON_STAKED_CONTRACT, amount: 100_000_000_000_000_000_000n },
       ])
     ).rejects.toThrow(
-      `Minimum staking amount is ${constants.minStakeAmountToken} tokens per dApp.`
+      `Minimum staking amount is ${constants.minStakeAmount} tokens per dApp.`
     );
 
     // dApp is not registered for staking

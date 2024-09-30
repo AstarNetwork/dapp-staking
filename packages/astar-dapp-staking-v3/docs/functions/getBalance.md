@@ -21,7 +21,3 @@ Address of the account.
 `Promise`\<[`AccountInfo`](../interfaces/AccountInfo.md)\>
 
 Account balance.
-
-## Defined in
-
-[logic/system.ts:13](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/system.ts#L13)

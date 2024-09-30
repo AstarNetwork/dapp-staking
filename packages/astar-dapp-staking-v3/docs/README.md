@@ -62,7 +62,7 @@ stakeTest()
 
 ## Available calls
 
-TODO all public calls descriptions
+Full documentation is [here](_media/globals.md)
 
 ## TODOs
 

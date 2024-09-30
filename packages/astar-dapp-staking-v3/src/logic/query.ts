@@ -1,7 +1,6 @@
 import type { u128, u32, Option } from "@polkadot/types";
 
 import type {
-  EraInfo,
   PalletDappStakingV3AccountLedger,
   PalletDappStakingV3EraInfo,
   PalletDappStakingV3EraRewardSpan,
@@ -16,6 +15,7 @@ import type {
   PeriodEndInfo,
   ProtocolState,
   SingularStakingInfo,
+  EraInfo,
 } from "../models/library";
 import {
   mapAccountLedger,
@@ -81,6 +81,12 @@ export async function getCurrentEraInfo(block?: number): Promise<EraInfo> {
   return mapCurrentEraInfo(info);
 }
 
+/**
+ * Gets the staker information for the given address.
+ * The staker info contains info about all staker for the given address.
+ * @param stakerAddress Staker address.
+ * @param includePreviousPeriods If true, the staker info will contain info about all previous periods.
+ */
 export async function getStakerInfo(
   stakerAddress: string,
   includePreviousPeriods = false
@@ -124,6 +130,10 @@ export async function getAccountLedger(
   return mapAccountLedger(ledger);
 }
 
+/**
+ * Gets all dApp staking constants.
+ * @returns Constants instance.
+ */
 export async function getConstants(): Promise<Constants> {
   const api = await getApi();
 
@@ -183,6 +193,11 @@ export async function getEraRewards(
   return mapEraRewards(rewards);
 }
 
+/**
+ * Gets duration of the era, voting and build and earn periods.
+ * @param block Block to query the state at. If not provided, state for the current block will be returned.
+ * @returns Era lengths
+ */
 export async function getEraLengths(block?: number): Promise<EraLengths> {
   const api = await getApi(block);
   if (api.rpc) {

@@ -9,6 +9,7 @@
 > **getBonusApr**(`simulatedVoteAmount`, `block`?): `Promise`\<`object`\>
 
 Calculates the bonus APR
+Usera is eligible for dApp staking bonus if they stake during the voting period and didn't unstake until the end of staking period.
 
 ## Parameters
 
@@ -33,7 +34,3 @@ Bonus APR %
 ### value
 
 > **value**: `number`
-
-## Defined in
-
-[logic/apr.ts:63](https://github.com/AstarNetwork/dapp-staking/blob/0eeb0e659e92439d12d988aa8e04d80fa51d55f9/packages/astar-dapp-staking-v3/src/logic/apr.ts#L63)
