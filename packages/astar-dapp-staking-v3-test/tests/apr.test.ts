@@ -12,7 +12,7 @@ given("astar")(
   async ({ networks: { astar } }) => {
     initApi(astar.api);
     const apr = await getStakerApr();
-    expect(apr).toBe(13.223914113305252);
+    expect(apr).toBe(13.223914110585214);
   }
 );
 
@@ -21,6 +21,6 @@ given("astar")(
   async ({ networks: { astar } }) => {
     initApi(astar.api);
     const apr = await getBonusApr();
-    expect(apr.value).toBe(7.140236184347406);
+    expect(apr.value).toBe(7.1402364157727325);
   }
 );

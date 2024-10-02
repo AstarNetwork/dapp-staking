@@ -10,6 +10,7 @@ import type { Bytes } from "@polkadot/types";
 import type { SmartContractAddress } from "../models/chain";
 import type { AccountInfo, ExtrinsicPayload } from "../models/library";
 import { CHAIN_DECIMALS, EXISTENTIAL_DEPOSIT } from "../constants";
+import { ethers } from "ethers";
 
 export function getDappAddressEnum(address: string) {
   if (isValidEthereumAddress(address)) {
@@ -105,7 +106,7 @@ export function bytesToNumber(bytes: Bytes): number {
 }
 
 export function weiToToken(wei: bigint): number {
-  return Number(wei / BigInt(10 ** CHAIN_DECIMALS));
+  return Number(ethers.formatUnits(wei.toString(), CHAIN_DECIMALS));
 }
 
 export function max(a: bigint, b: bigint): bigint {

@@ -35,5 +35,8 @@
       "**/*.test.ts"
     ],
     "disableSources": true
+  },
+  "dependencies": {
+    "ethers": "^6.13.3"
   }
 }

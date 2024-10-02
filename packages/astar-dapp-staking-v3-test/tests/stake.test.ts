@@ -6,10 +6,11 @@ import {
   canStake,
 } from "@astar-network/dapp-staking-v3";
 import {
-  PeriodType,
+  Subperiod,
   type AccountLedger,
   type ProtocolState,
   type ExtrinsicPayload,
+  type StakeInfo,
 } from "@astar-network/dapp-staking-v3/types";
 import { given } from "../helpers";
 import {
@@ -22,7 +23,7 @@ import {
   TEST_USER_ADDRESS,
 } from "./constants";
 
-const stakeInfo = [
+const stakeInfo: StakeInfo[] = [
   {
     address: TEST_CONTRACT_1,
     amount: 1_500_000_000_000_000_000_000n,
