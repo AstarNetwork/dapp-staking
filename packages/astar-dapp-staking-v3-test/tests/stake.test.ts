@@ -22,6 +22,7 @@ import {
   TEST_CONTRACT_2,
   TEST_USER_ADDRESS,
 } from "./constants";
+import { weiToToken } from "@astar-network/dapp-staking-v3/utils";
 
 const stakeInfo: StakeInfo[] = [
   {
@@ -114,7 +115,9 @@ given("astar")(
         { address: NON_STAKED_CONTRACT, amount: 100_000_000_000_000_000_000n },
       ])
     ).rejects.toThrow(
-      `Minimum staking amount is ${constants.minStakeAmount} tokens per dApp.`
+      `Minimum staking amount is ${weiToToken(
+        constants.minStakeAmount
+      )} tokens per dApp.`
     );
 
     // dApp is not registered for staking
@@ -138,7 +141,9 @@ given("astar")(
         },
       ])
     ).rejects.toThrow(
-      `Account must hold more than ${constants.minBalanceAfterStaking} transferable tokens after you stake.`
+      `Account must hold more than ${weiToToken(
+        constants.minBalanceAfterStaking
+      )} transferable tokens after you stake.`
     );
   }
 );

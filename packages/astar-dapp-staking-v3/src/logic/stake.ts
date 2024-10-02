@@ -24,6 +24,7 @@ import {
   getDappAddressEnum,
   isValidEthereumAddress,
   isValidPolkadotAddress,
+  weiToToken,
 } from "../utils";
 import type { PalletDappStakingV3DAppInfo } from "../models/chain";
 import { getBalance } from "./system";
@@ -187,7 +188,9 @@ export async function canStake(
     ) {
       return [
         false,
-        `Minimum staking amount is ${constants.minStakeAmount} tokens per dApp.`,
+        `Minimum staking amount is ${weiToToken(
+          constants.minStakeAmount
+        )} tokens per dApp.`,
       ];
     }
 
@@ -214,7 +217,9 @@ export async function canStake(
   if (constants.minBalanceAfterStaking > availableTokensBalance - stakeSum) {
     return [
       false,
-      `Account must hold more than ${constants.minBalanceAfterStaking} transferable tokens after you stake.`,
+      `Account must hold more than ${weiToToken(
+        constants.minBalanceAfterStaking
+      )} transferable tokens after you stake.`,
     ];
   }
 

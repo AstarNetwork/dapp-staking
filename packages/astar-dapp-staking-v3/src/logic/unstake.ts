@@ -15,7 +15,7 @@ import {
   getClaimBonusRewardsCalls,
   getClaimStakerRewardsCalls,
 } from "./rewards";
-import { batchCalls, getApi, getDappAddressEnum } from "../utils";
+import { batchCalls, getApi, getDappAddressEnum, weiToToken } from "../utils";
 
 /**
  * Gets batch call containing the following calls:
@@ -139,7 +139,9 @@ export async function canUnstake(
     // Handle unstaking all tokens.
     return [
       true,
-      `The operation will unstake all of your staked tokens because the minimum staking amount is ${constants.minStakeAmount} tokens.`,
+      `The operation will unstake all of your staked tokens because the minimum staking amount is ${weiToToken(
+        constants.minStakeAmount
+      )} tokens.`,
     ];
   }
 
@@ -151,7 +153,9 @@ export async function canUnstake(
     // Handle possibility to lose bonus rewards.
     const message =
       stake.staked.buildAndEarn > BigInt(0)
-        ? `You will loose eligibility for bonus reward at the end of current period if you unstake more than ${stake.staked.buildAndEarn} tokens.`
+        ? `You will loose eligibility for bonus reward at the end of current period if you unstake more than ${weiToToken(
+            stake.staked.buildAndEarn
+          )} tokens.`
         : "You will loose eligibility for bonus reward at the end of current period if you unstake tokens now.";
 
     return [true, message];

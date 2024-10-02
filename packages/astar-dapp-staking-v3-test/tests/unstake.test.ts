@@ -116,7 +116,7 @@ given("astar")(
     );
     expect(result).toEqual([
       true,
-      "The operation will unstake all of your staked tokens because the minimum staking amount is 500000000000000000000 tokens.",
+      "The operation will unstake all of your staked tokens because the minimum staking amount is 500 tokens.",
     ]);
   }
 );
