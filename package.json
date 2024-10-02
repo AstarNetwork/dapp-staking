@@ -12,7 +12,8 @@
     "staking:pack": "npm build & npm pack --workspace ./packages/astar-dapp-staking-v3 --pack-destination ./packages/astar-dapp-staking-v3",
     "staking:publish": "npm build & npm publish --workspace ./packages/astar-dapp-staking-v3",
     "staking:docs": "npm run docs  --workspace ./packages/astar-dapp-staking-v3",
-    "staking:test": "npm run build & npm run test --workspace ./packages/astar-dapp-staking-v3-test"
+    "staking:test": "npm run build & npm run test --workspace ./packages/astar-dapp-staking-v3-test",
+    "ui:start": "npm run build && npm run dev --workspace ./packages/dapp-staking-ui"
   },
   "dependencies": {
     "@astar-network/dapp-staking-v3": "^1.0.0",

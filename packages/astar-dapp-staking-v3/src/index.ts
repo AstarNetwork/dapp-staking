@@ -32,6 +32,8 @@ export {
 
 export { getTotalIssuance } from "./logic/balances";
 
+export { getDappDetails } from "./logic/api";
+
 export {
   AccountLedger,
   UnlockingChunk,
@@ -42,4 +44,5 @@ export {
   EraInfo,
   StakeAmount,
   EraLengths,
+  Dapp,
 } from "./models/library";
