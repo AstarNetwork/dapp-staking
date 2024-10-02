@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { CurrentAccountProvider } from "@/hooks/AccountProvider";
-import { PolkadotWalletsContextProvider } from "@polkadot-onboard/react";
-import { InjectedWalletProvider } from "@polkadot-onboard/injected-wallets";
-import { WalletAggregator } from "@polkadot-onboard/core";
-import { extensionConfiguration } from "@/configuration/extensionConfiguration";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

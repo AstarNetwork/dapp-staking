@@ -1,5 +1,6 @@
 "use client";
 
+import { Toaster } from "react-hot-toast";
 import styles from "./page.module.css";
 import ConnectContainer from "@/components/ConnectContainer";
 import { InjectedWalletProvider } from "@polkadot-onboard/injected-wallets";
@@ -31,6 +32,7 @@ export default function Home() {
             <main className={styles.main}>
               <Dapps />
             </main>
+            <Toaster />
           </div>
         </CurrentAccountProvider>
       </ApiProvider>

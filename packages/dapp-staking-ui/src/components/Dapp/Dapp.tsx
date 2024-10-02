@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import type { Dapp as DappModel } from "@astar-network/dapp-staking-v3/types";
 import {
   canStake as checkCanStake,
@@ -8,16 +9,16 @@ import {
 } from "@astar-network/dapp-staking-v3";
 import styles from "./Dapp.module.css";
 import { useAccount } from "@/hooks/useAccount";
+import { useSignAndSend } from "@/hooks/useSignAndSend";
 
 const Dapp = ({ dApp }: { dApp: DappModel }) => {
-  const { account, wallet } = useAccount();
+  const { account } = useAccount();
+  const { signAndSend } = useSignAndSend();
   const [stakeAmount, setStakeAmount] = useState<bigint>(BigInt(0));
   const [canStake, setCanStake] = useState(false);
   const [message, setMessage] = useState<string>();
 
   useEffect(() => {
-    console.log(stakeAmount, account);
-
     const checkStakeAmount = async () => {
       if (account) {
         const canStakeResult = await checkCanStake(account?.address, [
@@ -45,7 +46,8 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
   };
 
   const handleStake = async () => {
-    if (account && wallet) {
+    //toast("Staking...");
+    if (account) {
       const stakeCall = await getStakeCall(account.address, stakeAmount, [
         {
           address: dApp.address,
@@ -53,17 +55,25 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
         },
       ]);
 
-      stakeCall.signAndSend(
-        account.address,
-        {
-          signer: wallet.signer,
-          nonce: -1,
-          withSignedTransaction: true,
-        },
-        (result) => {
-          console.log("stake result", result);
-        }
-      );
+      try {
+        await signAndSend(stakeCall, (status) => {
+          toast(status);
+        });
+      } catch (error) {
+        toast.error(error);
+      }
+
+      // stakeCall.signAndSend(
+      //   account.address,
+      //   {
+      //     signer: wallet.signer,
+      //     nonce: -1,
+      //     withSignedTransaction: true,
+      //   },
+      //   (result) => {
+      //     console.log("stake result", result.toHuman());
+      //   }
+      // );
     }
   };
 

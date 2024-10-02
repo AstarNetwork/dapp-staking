@@ -29,14 +29,12 @@ const Wallet = ({
   };
 
   const walletClickHandler = async () => {
-    console.log("wallet clicked!");
     onWalletSelected(wallet);
     if (!isBusy) {
       try {
         setIsBusy(true);
         await wallet.connect();
         const accounts = await wallet.getAccounts();
-        console.log("accounts", accounts);
         setAccounts(accounts);
 
         if (accounts.length > 0) {

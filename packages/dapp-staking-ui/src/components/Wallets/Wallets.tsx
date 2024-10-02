@@ -1,26 +1,24 @@
 "use client";
 
-import { memo, useState, useEffect } from "react";
+import { memo, useEffect } from "react";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { useWallets } from "@polkadot-onboard/react";
 import type { BaseWallet } from "@polkadot-onboard/core";
+import { initApi } from "@astar-network/dapp-staking-v3";
 import Wallet from "../Wallet/Wallet";
 import styles from "./Wallets.module.css";
-import { initApi } from "@astar-network/dapp-staking-v3";
 import { useApi } from "@/hooks/useApi";
 import { useAccount } from "@/hooks/useAccount";
+import { RPC_ENDPOINT } from "@/configuration/constants";
 
 const Wallets = () => {
   const { wallets } = useWallets();
   const { setApi } = useApi();
   const { wallet, setWallet } = useAccount();
-  // const [selectedWallet, setSelectedWallet] = useState<
-  //   BaseWallet | undefined
-  // >();
 
   useEffect(() => {
     const setupApi = async () => {
-      const provider = new WsProvider("wss://rpc.astar.network");
+      const provider = new WsProvider(RPC_ENDPOINT);
       const api = await ApiPromise.create({ provider });
 
       setApi(api);
