@@ -1,4 +1,4 @@
-import { PeriodType } from "../models/library";
+import { Subperiod } from "../models/library";
 import type {
   ProtocolState,
   SingularStakingInfo,
@@ -145,7 +145,7 @@ export async function canUnstake(
 
   if (
     stake.loyalStaker &&
-    protocolState.periodInfo.subperiod === PeriodType.BuildAndEarn &&
+    protocolState.periodInfo.subperiod === Subperiod.BuildAndEarn &&
     stake.staked.totalStake - amount < stake.staked.voting
   ) {
     // Handle possibility to lose bonus rewards.

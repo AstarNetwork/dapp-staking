@@ -6,7 +6,7 @@
 
 # Function: getProtocolState()
 
-> **getProtocolState**(`block`?): `Promise`\<`ProtocolState`\>
+> **getProtocolState**(`block`?): `Promise`\<[`ProtocolState`](../interfaces/ProtocolState.md)\>
 
 Gets the current protocol state containing information about current era, subperiod, etc...
 
@@ -18,6 +18,6 @@ Block to query the state at. If not provided, state for the current block will b
 
 ## Returns
 
-`Promise`\<`ProtocolState`\>
+`Promise`\<[`ProtocolState`](../interfaces/ProtocolState.md)\>
 
 protocol state

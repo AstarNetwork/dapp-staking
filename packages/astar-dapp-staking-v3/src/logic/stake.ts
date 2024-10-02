@@ -1,7 +1,7 @@
 import type { Option } from "@polkadot/types";
 import {
   type AccountLedger,
-  PeriodType,
+  Subperiod,
   type ProtocolState,
   type StakeInfo,
   type ExtrinsicPayload,
@@ -145,7 +145,7 @@ export async function canStake(
   }
 
   if (
-    protocolState.periodInfo.subperiod === PeriodType.BuildAndEarn &&
+    protocolState.periodInfo.subperiod === Subperiod.BuildAndEarn &&
     protocolState.periodInfo.nextSubperiodStartEra <= protocolState.era + 1
   ) {
     return [

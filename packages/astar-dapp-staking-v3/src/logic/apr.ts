@@ -1,5 +1,5 @@
 import {
-  PeriodType,
+  Subperiod,
   type EraInfo,
   type EraLengths,
   type ProtocolState,
@@ -117,7 +117,7 @@ function getStakeAmount(
   eraInfo: EraInfo
 ): number {
   const currentStakeAmount = weiToToken(
-    protocolState.periodInfo.subperiod === PeriodType.Voting
+    protocolState.periodInfo.subperiod === Subperiod.Voting
       ? eraInfo.nextStakeAmount?.totalStake ?? BigInt(0)
       : eraInfo.currentStakeAmount.totalStake
   );
@@ -127,7 +127,7 @@ function getStakeAmount(
 
 function getVoteAmount(protocolState: ProtocolState, eraInfo: EraInfo): number {
   const currentVoteAmount = weiToToken(
-    protocolState.periodInfo.subperiod === PeriodType.Voting
+    protocolState.periodInfo.subperiod === Subperiod.Voting
       ? eraInfo.nextStakeAmount?.voting ?? BigInt(0)
       : eraInfo.currentStakeAmount.voting
   );

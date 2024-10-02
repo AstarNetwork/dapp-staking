@@ -42,4 +42,12 @@ export {
   EraInfo,
   StakeAmount,
   EraLengths,
+  InflationConfiguration,
+  InflationParam,
+  ProtocolState,
+  PeriodInfo,
+  Subperiod,
+  SingularStakingInfo,
+  StakerRewards,
+  StakeInfo,
 } from "./models/library";

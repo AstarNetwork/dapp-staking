@@ -21,7 +21,7 @@ import type {
   InflationConfiguration,
   InflationParam,
   PeriodEndInfo,
-  PeriodType,
+  Subperiod,
   ProtocolState,
   SingularStakingInfo,
   StakeAmount,
@@ -37,7 +37,7 @@ export function mapToProtocolStateModel(
     nextEraStart: state.nextEraStart.toNumber(),
     periodInfo: {
       number: state.periodInfo.number.toNumber(),
-      subperiod: <PeriodType>state.periodInfo.subperiod.type,
+      subperiod: <Subperiod>state.periodInfo.subperiod.type,
       nextSubperiodStartEra: state.periodInfo.nextSubperiodStartEra.toNumber(),
     },
     maintenance: state.maintenance.isTrue,
