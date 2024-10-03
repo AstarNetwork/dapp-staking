@@ -24,7 +24,7 @@ Staker address
 
 Amount to lock in wei
 
-• **stakeInfo**: `StakeInfo`[]
+• **stakeInfo**: [`StakeInfo`](../interfaces/StakeInfo.md)[]
 
 Stake info array containing dApp address and amount to stake (it is possible to stake to multiple dApps in one call)
 

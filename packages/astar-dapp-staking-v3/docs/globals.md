@@ -4,6 +4,10 @@
 
 # @astar-network/dapp-staking-v3
 
+## Enumerations
+
+- [Subperiod](enumerations/Subperiod.md)
+
 ## Interfaces
 
 - [AccountData](interfaces/AccountData.md)
@@ -12,7 +16,14 @@
 - [Constants](interfaces/Constants.md)
 - [EraInfo](interfaces/EraInfo.md)
 - [EraLengths](interfaces/EraLengths.md)
+- [InflationConfiguration](interfaces/InflationConfiguration.md)
+- [InflationParam](interfaces/InflationParam.md)
+- [PeriodInfo](interfaces/PeriodInfo.md)
+- [ProtocolState](interfaces/ProtocolState.md)
+- [SingularStakingInfo](interfaces/SingularStakingInfo.md)
 - [StakeAmount](interfaces/StakeAmount.md)
+- [StakeInfo](interfaces/StakeInfo.md)
+- [StakerRewards](interfaces/StakerRewards.md)
 - [UnlockingChunk](interfaces/UnlockingChunk.md)
 
 ## Type Aliases

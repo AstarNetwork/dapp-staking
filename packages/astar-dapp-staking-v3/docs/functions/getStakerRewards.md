@@ -6,7 +6,7 @@
 
 # Function: getStakerRewards()
 
-> **getStakerRewards**(`stakerAddress`): `Promise`\<`StakerRewards`\>
+> **getStakerRewards**(`stakerAddress`): `Promise`\<[`StakerRewards`](../interfaces/StakerRewards.md)\>
 
 Calculates staker rewards for the given address.
 
@@ -18,6 +18,6 @@ Staker address.
 
 ## Returns
 
-`Promise`\<`StakerRewards`\>
+`Promise`\<[`StakerRewards`](../interfaces/StakerRewards.md)\>
 
 Staker rewards.

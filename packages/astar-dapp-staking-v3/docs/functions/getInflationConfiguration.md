@@ -6,7 +6,7 @@
 
 # Function: getInflationConfiguration()
 
-> **getInflationConfiguration**(`block`?): `Promise`\<`InflationConfiguration`\>
+> **getInflationConfiguration**(`block`?): `Promise`\<[`InflationConfiguration`](../interfaces/InflationConfiguration.md)\>
 
 Gets the active inflation configuration.
 
@@ -18,6 +18,6 @@ Block to query the state at. If not provided, state for the current block will b
 
 ## Returns
 
-`Promise`\<`InflationConfiguration`\>
+`Promise`\<[`InflationConfiguration`](../interfaces/InflationConfiguration.md)\>
 
 Inflation configuration.

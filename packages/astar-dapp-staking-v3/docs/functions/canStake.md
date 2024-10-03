@@ -16,7 +16,7 @@ Checks if the staker can stake the provided stakes.
 
 Staker address
 
-• **stakes**: `StakeInfo`[]
+• **stakes**: [`StakeInfo`](../interfaces/StakeInfo.md)[]
 
 Stakes array containing dApp address and amount to stake.
 

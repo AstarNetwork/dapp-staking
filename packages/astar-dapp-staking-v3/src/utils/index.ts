@@ -7,9 +7,66 @@ import {
 } from "@polkadot/util-crypto";
 import { hexToU8a, u8aToNumber, isHex } from "@polkadot/util";
 import type { Bytes } from "@polkadot/types";
+import i18next from "i18next";
 import type { SmartContractAddress } from "../models/chain";
 import type { AccountInfo, ExtrinsicPayload } from "../models/library";
 import { CHAIN_DECIMALS, EXISTENTIAL_DEPOSIT } from "../constants";
+import { ethers } from "ethers";
+
+i18next.init(
+  {
+    lng: "en", // if you're using a language detector, do not define the lng option
+    debug: false,
+    resources: {
+      en: {
+        translation: {
+          i18initialized: "Translation engine has been initialized.",
+          libInitialized: "Astar dApp staking v3 library has been initialized.",
+          libNotInitialized:
+            "Astar dApp staking v3 library has not been initialized. Please call initApi first.",
+          invalidContractAddress:
+            "Invalid contract address {{address}}. The address should be in H160 or SS58 format.",
+          stakerAddressError: "Staker address is not provided or invalid.",
+          maintenanceMode: "dApp staking pallet is in maintenance mode.",
+          lastPeriodError:
+            "Period ends in the next era. It is not possible to stake in the last era of a period.",
+          noStakeInfo: "No stake info provided.",
+          dAppAddressError:
+            "dApp address is not provided or invalid {{address}}",
+          amountGt0: "Amount must be greater than 0.",
+          tooManyContractStakes:
+            "There are too many contract stake entries for the account.",
+          minStakingAmount:
+            "Minimum staking amount is {{amount}} tokens per dApp.",
+          dappNotRegistered:
+            "The dApp {{address}} is not registered for dApp staking.",
+          insufficientBalance:
+            "The staking amount surpasses the current balance available for staking.",
+          insufficientRemainingBalance:
+            "Account must hold more than {{amount}} transferable tokens after you stake.",
+          noStakingInfoForContract:
+            "Staker account has no staking information for the contract {{address}}.",
+          unstakeGreaterThanStaked:
+            "Un-stake amount is greater than the staked amount.",
+          unstakingInvalidPeriod:
+            "Un-staking is rejected since the period in which past stake was active has passed.",
+          tooManyUnlockingChunks:
+            "Contract has too many unlocking chunks. Withdraw the existing chunks if possible or wait for current chunks to complete unlocking process to withdraw them.",
+          unstakeAllWarning:
+            "The operation will un-stake all of your staked tokens because the minimum staking amount is {{amount}} tokens.",
+          loseBonusWarning:
+            "You will loose eligibility for bonus reward at the end of current period if you unstake tokens now.",
+          loseBonusWarningAmount:
+            "You will loose eligibility for bonus reward at the end of current period if you unstake more than {{amount}} tokens.",
+        },
+      },
+    },
+  },
+  (err, t) => {
+    // initialized and ready to go!
+    console.log(t("i18initialized"));
+  }
+);
 
 export function getDappAddressEnum(address: string) {
   if (isValidEthereumAddress(address)) {
@@ -20,9 +77,7 @@ export function getDappAddressEnum(address: string) {
     return { Wasm: address };
   }
 
-  throw new Error(
-    `Invalid contract address ${address}. The address should be in H160 or SS58 format.`
-  );
+  throw new Error(i18next.t("invalidContractAddress", { address }));
 }
 
 export function getContractAddress(
@@ -41,14 +96,12 @@ let api: ApiPromise;
  */
 export function initApi(apiInstance: ApiPromise): void {
   api = apiInstance;
-  console.log("Astar dApp staking v3 library has been initialized.");
+  console.log(i18next.t("libInitialized"));
 }
 
 export async function getApi(blockNumber?: number): Promise<ApiPromise> {
   if (!api) {
-    throw new Error(
-      "Astar dApp staking v3 library has not been initialized. Please call initApi first."
-    );
+    throw new Error(i18next.t("libNotInitialized"));
   }
 
   if (blockNumber !== undefined) {
@@ -105,7 +158,7 @@ export function bytesToNumber(bytes: Bytes): number {
 }
 
 export function weiToToken(wei: bigint): number {
-  return Number(wei / BigInt(10 ** CHAIN_DECIMALS));
+  return Number(ethers.formatUnits(wei.toString(), CHAIN_DECIMALS));
 }
 
 export function max(a: bigint, b: bigint): bigint {

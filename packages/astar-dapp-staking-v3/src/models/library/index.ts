@@ -8,14 +8,21 @@ export type ExtrinsicPayload = SubmittableExtrinsic<"promise">;
 
 export type ApiSupportedNetwork = "astar" | "shiden" | "shibuya";
 
-export enum PeriodType {
+/** dApp staking protocol subperiods */
+export enum Subperiod {
+  /** Voting subperiod. No rewards earned in this period */
   Voting = "Voting",
+  /** Build and earn subperiod. Rewards can be earned in this period */
   BuildAndEarn = "BuildAndEarn",
 }
 
-interface PeriodInfo {
+/** Ongoing period info */
+export interface PeriodInfo {
+  /** Period number */
   number: PeriodNumber;
-  subperiod: PeriodType;
+  /** Subperiod type (BuildAndEarn or Voting) */
+  subperiod: Subperiod;
+  /** Era in which the next subperiod should start */
   nextSubperiodStartEra: EraNumber;
 }
 
@@ -41,15 +48,15 @@ export interface EraInfo {
   readonly nextStakeAmount?: StakeAmount;
 }
 
-// General information & state of the dApp staking protocol.
+/** General information & state of the dApp staking protocol. */
 export interface ProtocolState {
-  // Ongoing era number.
+  /** Ongoing era number. */
   era: EraNumber;
-  // Block number at which the next era should start.
+  /** Block number at which the next era should start. */
   nextEraStart: BlockNumber;
-  // Ongoing period type and when is it expected to end.
+  /** Ongoing period type and when is it expected to end. */
   periodInfo: PeriodInfo;
-  // `true` if pallet is in maintenance mode (disabled), `false` otherwise.
+  /** `true` if pallet is in maintenance mode (disabled), `false` otherwise. */
   maintenance: boolean;
 }
 
@@ -61,8 +68,11 @@ export interface StakeAmount {
   readonly totalStake: bigint;
 }
 
+/** Staking info */
 export interface SingularStakingInfo {
+  /** Staked amount */
   readonly staked: StakeAmount;
+  /** Indicated whether a staker is loyal staker (Staked in Voting subperiod and didn't unstake until the end of the period) */
   readonly loyalStaker: boolean;
 }
 
@@ -186,8 +196,11 @@ export type BonusRewards = {
   contractsToClaim: Map<string, bigint>;
 };
 
+/** Stake call parameter */
 export interface StakeInfo {
+  /** Contract address */
   address: string;
+  /** Amount to stake */
   amount: bigint;
 }
 
@@ -206,6 +219,10 @@ export interface AccountData {
   readonly flags: bigint;
 }
 
+/**
+ * Inflation pallet configuration
+ * For details check https://github.com/AstarNetwork/Astar/blob/82b60ce04574c6546fa81220e94359bc76f09317/pallets/inflation/src/lib.rs#L473
+ */
 export interface InflationConfiguration {
   issuanceSafetyCap: bigint;
   collatorRewardPerBlock: bigint;
@@ -218,6 +235,10 @@ export interface InflationConfiguration {
   recalculationEra: number;
 }
 
+/**
+ * Inflation parameters
+ * For details check https://github.com/AstarNetwork/Astar/blob/82b60ce04574c6546fa81220e94359bc76f09317/pallets/inflation/src/lib.rs#L548
+ */
 export interface InflationParam {
   readonly maxInflationRate: number;
   readonly treasuryPart: number;

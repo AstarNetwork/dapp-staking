@@ -1,4 +1,4 @@
-import { PeriodType } from "@astar-network/dapp-staking-v3/types";
+import { Subperiod } from "@astar-network/dapp-staking-v3/types";
 import type {
   ProtocolState,
   SingularStakingInfo,
@@ -23,7 +23,7 @@ export const protocolStateMock: ProtocolState = {
   periodInfo: {
     nextSubperiodStartEra: 0,
     number: 1,
-    subperiod: PeriodType.BuildAndEarn,
+    subperiod: Subperiod.BuildAndEarn,
   },
 };
 

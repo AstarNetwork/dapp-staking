@@ -1,4 +1,4 @@
-import { PeriodType } from "../models/library";
+import { Subperiod } from "../models/library";
 import type {
   ProtocolState,
   SingularStakingInfo,
@@ -15,7 +15,8 @@ import {
   getClaimBonusRewardsCalls,
   getClaimStakerRewardsCalls,
 } from "./rewards";
-import { batchCalls, getApi, getDappAddressEnum } from "../utils";
+import { batchCalls, getApi, getDappAddressEnum, weiToToken } from "../utils";
+import i18next from "i18next";
 
 /**
  * Gets batch call containing the following calls:
@@ -104,55 +105,53 @@ export async function canUnstake(
   if (!stake) {
     return [
       false,
-      "Staker account has no staking information for the contract.",
+      i18next.t("noStakingInfoForContract", { address: dappAddress }),
     ];
   }
   const stakedAmount = stake.staked.totalStake;
 
   if (amount <= 0) {
-    return [false, "Amount must be greater than 0."];
+    return [false, i18next.t("amountGt0")];
   }
 
   if (amount > stakedAmount) {
-    return [false, "Unstake amount is greater than the staked amount."];
+    return [false, i18next.t("unstakeGreaterThanStaked")];
   }
 
   if (protocolState.maintenance) {
-    return [false, "dApp staking pallet is in maintenance mode."];
+    return [false, i18next.t("maintenanceMode")];
   }
 
   if (stake.staked.period !== protocolState.periodInfo.number) {
-    return [
-      false,
-      "Unstaking is rejected since the period in which past stake was active has passed.",
-    ];
+    return [false, i18next.t("unstakingInvalidPeriod")];
   }
 
   if (ledger.unlocking.length >= constants.maxUnlockingChunks) {
-    return [
-      false,
-      "Contract has too many unlocking chunks. Withdraw the existing chunks if possible or wait for current chunks to complete unlocking process to withdraw them.",
-    ];
+    return [false, i18next.t("tooManyUnlockingChunks")];
   }
 
   if (constants.minStakeAmount > stakedAmount - amount) {
-    // Handle unstaking all tokens.
+    // Handle un-staking all tokens.
     return [
       true,
-      `The operation will unstake all of your staked tokens because the minimum staking amount is ${constants.minStakeAmount} tokens.`,
+      i18next.t("unstakeAllWarning", {
+        amount: weiToToken(constants.minStakeAmount),
+      }),
     ];
   }
 
   if (
     stake.loyalStaker &&
-    protocolState.periodInfo.subperiod === PeriodType.BuildAndEarn &&
+    protocolState.periodInfo.subperiod === Subperiod.BuildAndEarn &&
     stake.staked.totalStake - amount < stake.staked.voting
   ) {
     // Handle possibility to lose bonus rewards.
     const message =
       stake.staked.buildAndEarn > BigInt(0)
-        ? `You will loose eligibility for bonus reward at the end of current period if you unstake more than ${stake.staked.buildAndEarn} tokens.`
-        : "You will loose eligibility for bonus reward at the end of current period if you unstake tokens now.";
+        ? i18next.t("loseBonusWarningAmount", {
+            amount: weiToToken(stake.staked.buildAndEarn),
+          })
+        : i18next.t("loseBonusWarning");
 
     return [true, message];
   }

@@ -1,7 +1,7 @@
 import type { Option } from "@polkadot/types";
 import {
   type AccountLedger,
-  PeriodType,
+  Subperiod,
   type ProtocolState,
   type StakeInfo,
   type ExtrinsicPayload,
@@ -24,9 +24,11 @@ import {
   getDappAddressEnum,
   isValidEthereumAddress,
   isValidPolkadotAddress,
+  weiToToken,
 } from "../utils";
 import type { PalletDappStakingV3DAppInfo } from "../models/chain";
 import { getBalance } from "./system";
+import i18next from "i18next";
 
 /**
  * Gets batch call containing the following calls:
@@ -127,7 +129,7 @@ export async function canStake(
   //Returns: [result, errorMessage]
 ): Promise<[boolean, string]> {
   if (!stakerAddress || !isValidPolkadotAddress(stakerAddress)) {
-    return [false, "Staker address is not provided or invalid."];
+    return [false, i18next.t("stakerAddressError")];
   }
 
   const [constants, ledger, protocolState, stakerInfo, accountInfo] =
@@ -141,21 +143,18 @@ export async function canStake(
   const stakeSum = stakes.reduce((acc, stake) => acc + stake.amount, 0n);
 
   if (protocolState.maintenance) {
-    return [false, "dApp staking pallet is in maintenance mode."];
+    return [false, i18next.t("maintenanceMode")];
   }
 
   if (
-    protocolState.periodInfo.subperiod === PeriodType.BuildAndEarn &&
+    protocolState.periodInfo.subperiod === Subperiod.BuildAndEarn &&
     protocolState.periodInfo.nextSubperiodStartEra <= protocolState.era + 1
   ) {
-    return [
-      false,
-      "Period ends in the next era. It is not possible to stake in the last era of a period.",
-    ];
+    return [false, i18next.t("lastPeriodError")];
   }
 
   if (!stakes || stakes.length === 0) {
-    return [false, "No stake info provided."];
+    return [false, i18next.t("noStakeInfo")];
   }
 
   for (const stake of stakes) {
@@ -164,21 +163,15 @@ export async function canStake(
       (!isValidPolkadotAddress(stake.address) &&
         !isValidEthereumAddress(stake.address))
     ) {
-      return [
-        false,
-        `dApp address is not provided or invalid ${stake.address}`,
-      ];
+      return [false, i18next.t("dAppAddressError", { address: stake.address })];
     }
 
     if (stake.amount <= 0) {
-      return [false, "Stake amount must be greater than 0."];
+      return [false, i18next.t("amountGt0")];
     }
 
     if (ledger.contractStakeCount >= constants.maxNumberOfStakedContracts) {
-      return [
-        false,
-        "There are too many contract stake entries for the account.",
-      ];
+      return [false, i18next.t("tooManyContractStakes")];
     }
 
     if (
@@ -187,7 +180,9 @@ export async function canStake(
     ) {
       return [
         false,
-        `Minimum staking amount is ${constants.minStakeAmount} tokens per dApp.`,
+        i18next.t("minStakingAmount", {
+          amount: weiToToken(constants.minStakeAmount),
+        }),
       ];
     }
 
@@ -198,23 +193,22 @@ export async function canStake(
     if (dapp.isNone) {
       return [
         false,
-        `The dApp ${stake.address} is not registered for dApp staking.`,
+        i18next.t("dappNotRegistered", { address: stake.address }),
       ];
     }
   }
 
   const availableTokensBalance = getAvailableBalance(accountInfo);
   if (stakeSum > availableTokensBalance) {
-    return [
-      false,
-      "The staking amount surpasses the current balance available for staking.",
-    ];
+    return [false, i18next.t("insufficientBalance")];
   }
 
   if (constants.minBalanceAfterStaking > availableTokensBalance - stakeSum) {
     return [
       false,
-      `Account must hold more than ${constants.minBalanceAfterStaking} transferable tokens after you stake.`,
+      i18next.t("insufficientRemainingBalance", {
+        amount: weiToToken(constants.minBalanceAfterStaking),
+      }),
     ];
   }
 

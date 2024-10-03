@@ -6,10 +6,11 @@ import {
   canStake,
 } from "@astar-network/dapp-staking-v3";
 import {
-  PeriodType,
+  Subperiod,
   type AccountLedger,
   type ProtocolState,
   type ExtrinsicPayload,
+  type StakeInfo,
 } from "@astar-network/dapp-staking-v3/types";
 import { given } from "../helpers";
 import {
@@ -21,8 +22,9 @@ import {
   TEST_CONTRACT_2,
   TEST_USER_ADDRESS,
 } from "./constants";
+import { weiToToken } from "@astar-network/dapp-staking-v3/utils";
 
-const stakeInfo = [
+const stakeInfo: StakeInfo[] = [
   {
     address: TEST_CONTRACT_1,
     amount: 1_500_000_000_000_000_000_000n,
@@ -104,7 +106,7 @@ given("astar")(
       getStakeCall(TEST_USER_ADDRESS, 1n, [
         { address: TEST_CONTRACT_1, amount: 0n },
       ])
-    ).rejects.toThrow("Stake amount must be greater than 0.");
+    ).rejects.toThrow("Amount must be greater than 0.");
 
     // Stake amount is lower than the minimum
     const constants = await getConstants();
@@ -113,7 +115,9 @@ given("astar")(
         { address: NON_STAKED_CONTRACT, amount: 100_000_000_000_000_000_000n },
       ])
     ).rejects.toThrow(
-      `Minimum staking amount is ${constants.minStakeAmount} tokens per dApp.`
+      `Minimum staking amount is ${weiToToken(
+        constants.minStakeAmount
+      )} tokens per dApp.`
     );
 
     // dApp is not registered for staking
@@ -137,7 +141,9 @@ given("astar")(
         },
       ])
     ).rejects.toThrow(
-      `Account must hold more than ${constants.minBalanceAfterStaking} transferable tokens after you stake.`
+      `Account must hold more than ${weiToToken(
+        constants.minBalanceAfterStaking
+      )} transferable tokens after you stake.`
     );
   }
 );
