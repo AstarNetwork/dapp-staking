@@ -4,7 +4,7 @@ import { memo, useState } from "react";
 import type { BaseWallet, Account } from "@polkadot-onboard/core";
 import Image from "next/image";
 import styles from "./Wallet.module.css";
-import { useAccount } from "@/hooks/useAccount";
+import { useAccount } from "@/hooks";
 
 const Wallet = ({
   wallet,

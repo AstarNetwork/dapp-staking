@@ -1,79 +1,50 @@
 "use client";
 
-import { memo, useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { memo } from "react";
 import type { Dapp as DappModel } from "@astar-network/dapp-staking-v3/types";
-import {
-  canStake as checkCanStake,
-  getStakeCall,
-} from "@astar-network/dapp-staking-v3";
+import { canStake, canUnstake } from "@astar-network/dapp-staking-v3";
 import styles from "./Dapp.module.css";
-import { useAccount } from "@/hooks/useAccount";
-import { useSignAndSend } from "@/hooks/useSignAndSend";
+import { useAccount, useDappStaking } from "@/hooks";
+import InputWithButton from "../InputWithButton/InputWithButton";
 
 const Dapp = ({ dApp }: { dApp: DappModel }) => {
   const { account } = useAccount();
-  const { signAndSend } = useSignAndSend();
-  const [stakeAmount, setStakeAmount] = useState<bigint>(BigInt(0));
-  const [canStake, setCanStake] = useState(false);
-  const [message, setMessage] = useState<string>();
+  const { stake, unstake } = useDappStaking();
 
-  useEffect(() => {
-    const checkStakeAmount = async () => {
-      if (account) {
-        const canStakeResult = await checkCanStake(account?.address, [
-          {
-            address: dApp.address,
-            amount: stakeAmount,
-          },
-        ]);
+  const validateStakeAmount = async (
+    amount: bigint
+  ): Promise<[boolean, string]> => {
+    const result = await canStake(account?.address || "", [
+      {
+        address: dApp.address,
+        amount,
+      },
+    ]);
 
-        setCanStake(canStakeResult[0]);
-        setMessage(canStakeResult[1]);
-      }
-    };
-
-    checkStakeAmount();
-  }, [stakeAmount, account, dApp.address]);
-
-  const handleStakeAmountChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const stakeAmountInWei = BigInt(
-      Number(event.target.value) * Number(10 ** 18)
-    );
-    setStakeAmount(stakeAmountInWei);
+    return result;
   };
 
-  const handleStake = async () => {
-    //toast("Staking...");
+  const validateUnstakeAmount = async (
+    amount: bigint
+  ): Promise<[boolean, string]> => {
+    const result = await canUnstake(
+      account?.address || "",
+      dApp.address,
+      amount
+    );
+
+    return result;
+  };
+
+  const handleStake = async (amount: bigint) => {
     if (account) {
-      const stakeCall = await getStakeCall(account.address, stakeAmount, [
-        {
-          address: dApp.address,
-          amount: stakeAmount,
-        },
-      ]);
+      await stake(dApp.address, amount);
+    }
+  };
 
-      try {
-        await signAndSend(stakeCall, (status) => {
-          toast(status);
-        });
-      } catch (error) {
-        toast.error(error);
-      }
-
-      // stakeCall.signAndSend(
-      //   account.address,
-      //   {
-      //     signer: wallet.signer,
-      //     nonce: -1,
-      //     withSignedTransaction: true,
-      //   },
-      //   (result) => {
-      //     console.log("stake result", result.toHuman());
-      //   }
-      // );
+  const handleUnstake = async (amount: bigint) => {
+    if (account) {
+      await unstake(dApp.address, amount);
     }
   };
 
@@ -84,18 +55,20 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
         <img className={styles.logo} src={dApp.iconUrl} alt={dApp.name} />
         <div>{dApp.description}</div>
       </div>
-      <div>
-        <input
-          type="number"
-          min="0"
-          placeholder="0 ASTR"
-          onChange={handleStakeAmountChange}
-        />
-        <button type="button" disabled={!canStake} onClick={handleStake}>
-          Stake
-        </button>
-      </div>
-      <div>{message}</div>
+      {account && (
+        <>
+          <InputWithButton
+            buttonText="Stake"
+            validateAmount={validateStakeAmount}
+            onButtonClick={handleStake}
+          />
+          <InputWithButton
+            buttonText="Unstake"
+            validateAmount={validateUnstakeAmount}
+            onButtonClick={handleUnstake}
+          />
+        </>
+      )}
     </div>
   );
 };
