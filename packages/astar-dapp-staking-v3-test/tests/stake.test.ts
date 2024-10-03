@@ -106,7 +106,7 @@ given("astar")(
       getStakeCall(TEST_USER_ADDRESS, 1n, [
         { address: TEST_CONTRACT_1, amount: 0n },
       ])
-    ).rejects.toThrow("Stake amount must be greater than 0.");
+    ).rejects.toThrow("Amount must be greater than 0.");
 
     // Stake amount is lower than the minimum
     const constants = await getConstants();

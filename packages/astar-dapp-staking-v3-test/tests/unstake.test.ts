@@ -52,7 +52,7 @@ given("astar")(
         10_000_000_000_000_000_000n
       )
     ).rejects.toThrow(
-      "Staker account has no staking information for the contract."
+      `Staker account has no staking information for the contract ${TEST_CONTRACT_1}.`
     );
   }
 );
@@ -77,7 +77,7 @@ given("astar")(
         ALREADY_STAKED_CONTRACT,
         1_000_000_000_000_000_000_000n
       )
-    ).rejects.toThrow("Unstake amount is greater than the staked amount.");
+    ).rejects.toThrow("Un-stake amount is greater than the staked amount.");
   }
 );
 
@@ -116,7 +116,7 @@ given("astar")(
     );
     expect(result).toEqual([
       true,
-      "The operation will unstake all of your staked tokens because the minimum staking amount is 500 tokens.",
+      "The operation will un-stake all of your staked tokens because the minimum staking amount is 500 tokens.",
     ]);
   }
 );
@@ -145,7 +145,7 @@ given("astar")(
     );
     expect(result).toEqual([
       false,
-      "Unstaking is rejected since the period in which past stake was active has passed.",
+      "Un-staking is rejected since the period in which past stake was active has passed.",
     ]);
   }
 );

@@ -37,6 +37,7 @@
     "disableSources": true
   },
   "dependencies": {
-    "ethers": "^6.13.3"
+    "ethers": "^6.13.3",
+    "i18next": "^23.15.1"
   }
 }
