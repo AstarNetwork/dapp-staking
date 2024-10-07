@@ -31,7 +31,7 @@ given("astar")(
   async ({ networks: { astar } }) => {
     initApi(astar.api);
     const rewards = await getClaimStakerRewardsCall(TEST_USER_ADDRESS);
-    expect(rewards?.length).toBe(undefined);
+    expect(rewards.length).toBe(0);
   }
 );
 
@@ -51,6 +51,6 @@ given("astar")(
   async ({ networks: { astar } }) => {
     initApi(astar.api);
     const rewards = await getClaimBonusRewardsCalls(TEST_USER_ADDRESS);
-    expect(rewards?.length).toBe(undefined);
+    expect(rewards.length).toBe(0);
   }
 );

@@ -158,3 +158,8 @@ export async function canUnstake(
 
   return [true, ""];
 }
+
+export async function getClaimUnlockedCall(): Promise<ExtrinsicPayload> {
+  const api = await getApi();
+  return api.tx.dappStaking.claimUnlocked();
+}

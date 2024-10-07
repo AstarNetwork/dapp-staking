@@ -35,3 +35,5 @@ export const ERA_LENGTHS = new Map<string, EraLengths>([
     },
   ],
 ]);
+
+export const TOKEN_API_URL = "https://api.astar.network/api";

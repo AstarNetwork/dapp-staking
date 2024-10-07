@@ -20,7 +20,6 @@ i18next.init(
     resources: {
       en: {
         translation: {
-          i18initialized: "Translation engine has been initialized.",
           libInitialized: "Astar dApp staking v3 library has been initialized.",
           libNotInitialized:
             "Astar dApp staking v3 library has not been initialized. Please call initApi first.",
@@ -62,9 +61,11 @@ i18next.init(
       },
     },
   },
-  (err, t) => {
+  (err, _) => {
     // initialized and ready to go!
-    console.log(t("i18initialized"));
+    if (err) {
+      console.error(err);
+    }
   }
 );
 
@@ -159,6 +160,10 @@ export function bytesToNumber(bytes: Bytes): number {
 
 export function weiToToken(wei: bigint): number {
   return Number(ethers.formatUnits(wei.toString(), CHAIN_DECIMALS));
+}
+
+export function tokenToWei(amount: number): bigint {
+  return BigInt(ethers.parseEther(amount.toString()));
 }
 
 export function max(a: bigint, b: bigint): bigint {

@@ -20,12 +20,12 @@ import { getApi, getDappAddressEnum } from "../utils";
  */
 export async function getClaimStakerRewardsCalls(
   stakerAddress: string
-): Promise<ExtrinsicPayload[] | undefined> {
+): Promise<ExtrinsicPayload[]> {
   const { firstSpanIndex, lastSpanIndex, rewardsExpired, eraRewardSpanLength } =
     await getStakerEraRange(stakerAddress);
 
   if (rewardsExpired || Number.isNaN(firstSpanIndex)) {
-    return undefined;
+    return [];
   }
 
   const numberOfClaimCalls =
@@ -202,11 +202,11 @@ export async function getBonusReward(stakerAddress: string): Promise<bigint> {
  */
 export async function getClaimBonusRewardsCalls(
   stakerAddress: string
-): Promise<ExtrinsicPayload[] | undefined> {
+): Promise<ExtrinsicPayload[]> {
   const result = await getBonusRewardsAndContractsToClaim(stakerAddress);
 
   if (result.contractsToClaim.size === 0) {
-    return undefined;
+    return [];
   }
 
   const api = await getApi();

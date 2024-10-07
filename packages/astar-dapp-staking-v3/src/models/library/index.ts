@@ -6,6 +6,8 @@ type BlockNumber = number;
 
 export type ExtrinsicPayload = SubmittableExtrinsic<"promise">;
 
+export type ApiSupportedNetwork = "astar" | "shiden" | "shibuya";
+
 /** dApp staking protocol subperiods */
 export enum Subperiod {
   /** Voting subperiod. No rewards earned in this period */
@@ -260,4 +262,16 @@ export interface EraLengths {
   standardEraLength: number;
   /** Number of dApp staking periods in an inflation cycle */
   periodsPerCycle: number;
+}
+
+export interface Dapp {
+  address: string;
+  name: string;
+  description: string;
+  iconUrl: string;
+  mainCategory?: string;
+  creationTime: number;
+  shortDescription: string;
+  url: string;
+  imagesUrl: string[];
 }
