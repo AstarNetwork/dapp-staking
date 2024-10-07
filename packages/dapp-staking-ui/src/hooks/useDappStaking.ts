@@ -9,12 +9,14 @@ import {
   getUnstakeCall,
   subscribeToProtocolStateChanges,
   getClaimStakerRewardsCall,
+  getAccountLedger,
 } from "@astar-network/dapp-staking-v3";
 import { useSignAndSend } from "./useSignAndSend";
 import { errorToast, infoToast, successToast } from "@/app/toast";
 import { useApi } from "./useApi";
 import { batchCalls } from "@astar-network/dapp-staking-v3/utils";
 import toast from "react-hot-toast";
+import { getClaimUnlockedCall } from "../../../astar-dapp-staking-v3/build/logic/unstake";
 
 let isHookInitialized = false;
 
@@ -36,6 +38,7 @@ export const useDappStaking = () => {
     if (account) {
       fetchStakeInfo();
       fetchRewards();
+      fetchAccountLedger();
     }
 
     if (!isHookInitialized) {
@@ -60,6 +63,13 @@ export const useDappStaking = () => {
         bonus,
       };
       context.setRewards(rewards);
+    }
+  };
+
+  const fetchAccountLedger = async () => {
+    if (account) {
+      const ledger = await getAccountLedger(account.address);
+      context.setLedger(ledger);
     }
   };
 
@@ -108,6 +118,7 @@ export const useDappStaking = () => {
           if (!isBusy) {
             successToast("Staking successful");
             fetchStakeInfo();
+            fetchAccountLedger();
           }
         });
       } catch (error) {
@@ -135,6 +146,27 @@ export const useDappStaking = () => {
           if (!isBusy) {
             successToast("Un-staking successful");
             fetchStakeInfo();
+            fetchAccountLedger();
+          }
+        });
+      } catch (error) {
+        const e = error as Error;
+        errorToast(e.message);
+      }
+    }
+  };
+
+  const claimUnlocked = async (): Promise<void> => {
+    if (account) {
+      const claimCall = await getClaimUnlockedCall();
+
+      try {
+        await signAndSend(claimCall, (isBusy, status) => {
+          status && infoToast(status);
+
+          if (!isBusy) {
+            successToast("Claim unlocked successful");
+            fetchAccountLedger();
           }
         });
       } catch (error) {
@@ -149,5 +181,13 @@ export const useDappStaking = () => {
     context.setStakeInfo(stakeInfo);
   };
 
-  return { ...context, fetchStakeInfo, stake, unstake, claimStakerRewards };
+  return {
+    ...context,
+    fetchStakeInfo,
+    stake,
+    unstake,
+    claimStakerRewards,
+    fetchAccountLedger,
+    claimUnlocked,
+  };
 };

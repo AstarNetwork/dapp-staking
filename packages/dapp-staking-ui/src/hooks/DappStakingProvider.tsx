@@ -2,6 +2,7 @@
 
 import { createContext, useState } from "react";
 import type {
+  AccountLedger,
   ProtocolState,
   SingularStakingInfo,
 } from "@astar-network/dapp-staking-v3";
@@ -18,6 +19,8 @@ type DappStaking = {
   setProtocolState: (protocolState: ProtocolState) => void;
   rewards?: Rewards;
   setRewards: (rewards: Rewards) => void;
+  ledger?: AccountLedger;
+  setLedger: (ledger: AccountLedger) => void;
 };
 
 export const DappStakingContext = createContext<DappStaking | undefined>(
@@ -33,6 +36,7 @@ export function DappStakingProvider({
     useState<Map<string, SingularStakingInfo>>();
   const [protocolState, setProtocolState] = useState<ProtocolState>();
   const [rewards, setRewards] = useState<Rewards>();
+  const [ledger, setLedger] = useState<AccountLedger>();
 
   return (
     <>
@@ -41,9 +45,11 @@ export function DappStakingProvider({
           stakeInfo,
           protocolState,
           rewards,
+          ledger,
           setStakeInfo,
           setProtocolState,
           setRewards,
+          setLedger,
         }}
       >
         {children}

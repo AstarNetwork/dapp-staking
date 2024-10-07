@@ -15,6 +15,7 @@ import {
 import Dapps from "@/components/Dapps/Dapps";
 import ProtocolState from "@/components/ProtocolState/ProtocolState";
 import Rewards from "@/components/Rewards/Rewards";
+import StakerInfo from "@/components/StakerInfo/StakerInfo";
 
 const APP_NAME = "dApp staking Demo";
 
@@ -39,6 +40,7 @@ export default function Home() {
                 <ProtocolState />
               </div>
               <main className={styles.main}>
+                <StakerInfo />
                 <Rewards />
                 <Dapps />
               </main>
