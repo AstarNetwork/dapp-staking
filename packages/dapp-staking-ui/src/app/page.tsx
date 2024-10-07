@@ -13,6 +13,8 @@ import {
   DappStakingProvider,
 } from "@/hooks";
 import Dapps from "@/components/Dapps/Dapps";
+import ProtocolState from "@/components/ProtocolState/ProtocolState";
+import Rewards from "@/components/Rewards/Rewards";
 
 const APP_NAME = "dApp staking Demo";
 
@@ -30,10 +32,14 @@ export default function Home() {
           <DappStakingProvider>
             <div className={styles.page}>
               <div className={styles.header}>
-                <h2>dApp staking library demo</h2>
-                <ConnectContainer />
+                <div className={styles.title}>
+                  <h2>dApp staking library demo</h2>
+                  <ConnectContainer />
+                </div>
+                <ProtocolState />
               </div>
               <main className={styles.main}>
+                <Rewards />
                 <Dapps />
               </main>
               <Toaster />

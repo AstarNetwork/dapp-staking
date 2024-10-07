@@ -1,16 +1,21 @@
 import { memo } from "react";
 import { weiToToken } from "@astar-network/dapp-staking-v3/utils";
-import { useDappStaking } from "@/hooks";
-import { DAPP_ADDRESS } from "@/configuration/constants";
+import { useApi, useDappStaking } from "@/hooks";
 
 const StakingInfo = ({ dappAddress }: { dappAddress: string }) => {
   const { stakeInfo: info } = useDappStaking();
+  const { tokenSymbol } = useApi();
 
   return (
     <div>
       Your staking:
-      {info &&
-        weiToToken(info.get(dappAddress)?.staked.totalStake || BigInt(0))}
+      <b>
+        {info &&
+          weiToToken(
+            info.get(dappAddress)?.staked.totalStake || BigInt(0)
+          )}{" "}
+        {tokenSymbol}
+      </b>
     </div>
   );
 };

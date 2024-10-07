@@ -50,13 +50,19 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
 
   return (
     <div className={styles.container}>
-      <div>{dApp.name}</div>
+      <h4>{dApp.name}</h4>
       <div className={styles.logoAndDescription}>
         <img className={styles.logo} src={dApp.iconUrl} alt={dApp.name} />
-        <div>{dApp.description}</div>
+        <div>{dApp.address}</div>
       </div>
+      <div className={styles.images}>
+        {dApp.imagesUrl.map((url, index) => (
+          <img className={styles.image} key={url} src={url} alt={dApp.name} />
+        ))}
+      </div>
+      <div>{dApp.description}</div>
       {account && (
-        <>
+        <div className={styles.inputs}>
           <InputWithButton
             buttonText="Stake"
             validateAmount={validateStakeAmount}
@@ -67,7 +73,7 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
             validateAmount={validateUnstakeAmount}
             onButtonClick={handleUnstake}
           />
-        </>
+        </div>
       )}
     </div>
   );

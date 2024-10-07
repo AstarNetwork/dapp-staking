@@ -6,3 +6,8 @@
 .button {
   min-width: 100px;
 }
+
+.error {
+  font-size: 80%;
+  color: red;
+}

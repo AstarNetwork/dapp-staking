@@ -3,8 +3,6 @@
 import { useState } from "react";
 import Wallets from "./Wallets/Wallets";
 
-const APP_NAME = "dApp staking Demo";
-
 const ConnectContainer = () => {
   const [showWallets, setShowWallets] = useState(false);
 

@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { ApiContext } from "./ApiProvider";
 import { RPC_ENDPOINT } from "@/configuration/constants";
 
-let isInitialized = false;
+let isApiInitialized = false;
 
 export const useApi = () => {
   const context = useContext(ApiContext);
@@ -15,16 +15,20 @@ export const useApi = () => {
 
   const init = async () => {
     console.log("Initializing Dapp Staking API");
+    isApiInitialized = true;
     const provider = new WsProvider(RPC_ENDPOINT);
     const api = await ApiPromise.create({ provider });
 
     initApi(api);
     context?.setApi(api);
+    context.setIsInitialized(true);
+
+    context.setChainDecimals(api.registry.chainDecimals[0]);
+    context.setTokenSymbol(api.registry.chainTokens[0]);
   };
 
-  if (!isInitialized) {
+  if (!isApiInitialized) {
     init();
-    isInitialized = true;
   }
 
   return context;

@@ -54,7 +54,7 @@ const InputWithButton = ({
           {buttonText}
         </button>
       </div>
-      <div>{validationMessage}</div>
+      <div className={styles.error}>{validationMessage}</div>
     </div>
   );
 };

@@ -4,13 +4,23 @@ import { useAccount } from "./useAccount";
 import {
   getStakeCall,
   getStakerInfo,
+  getStakerRewards,
+  getBonusRewards,
   getUnstakeCall,
+  subscribeToProtocolStateChanges,
+  getClaimStakerRewardsCall,
 } from "@astar-network/dapp-staking-v3";
 import { useSignAndSend } from "./useSignAndSend";
 import { errorToast, infoToast, successToast } from "@/app/toast";
+import { useApi } from "./useApi";
+import { batchCalls } from "@astar-network/dapp-staking-v3/utils";
+import toast from "react-hot-toast";
+
+let isHookInitialized = false;
 
 export const useDappStaking = () => {
   const { account } = useAccount();
+  const { isInitialized } = useApi();
   const { signAndSend } = useSignAndSend();
   const context = useContext(DappStakingContext);
 
@@ -19,12 +29,70 @@ export const useDappStaking = () => {
   }
 
   useEffect(() => {
+    if (!isInitialized) {
+      return;
+    }
+
     if (account) {
       fetchStakeInfo();
+      fetchRewards();
     }
-  }, [account]);
 
-  const stake = async (contractAddress: string, stakeAmount: bigint) => {
+    if (!isHookInitialized) {
+      subscribeToProtocolStateChanges((state) => {
+        context.setProtocolState(state);
+        fetchRewards();
+      });
+
+      isHookInitialized = true;
+    }
+  }, [account, isInitialized]);
+
+  const fetchRewards = async () => {
+    if (account) {
+      const [staker, bonus] = await Promise.all([
+        getStakerRewards(account.address),
+        getBonusRewards(account.address),
+      ]);
+
+      const rewards = {
+        staker: staker.amount,
+        bonus,
+      };
+      context.setRewards(rewards);
+    }
+  };
+
+  const claimStakerRewards = async (): Promise<void> => {
+    if (account) {
+      const claimCall = await getClaimStakerRewardsCall(account.address);
+      if (claimCall.length === 0) {
+        toast.error("No rewards to claim.");
+        return;
+      }
+
+      const batch = await batchCalls(claimCall);
+
+      try {
+        await signAndSend(batch, (isBusy, status) => {
+          status && infoToast(status);
+
+          if (!isBusy) {
+            successToast("Claim staker rewards successful");
+            fetchRewards();
+          }
+        });
+      } catch (error) {
+        const e = error as Error;
+        errorToast(e.message);
+      }
+    }
+  };
+
+  const stake = async (
+    contractAddress: string,
+    stakeAmount: bigint
+  ): Promise<void> => {
     if (account) {
       const stakeCall = await getStakeCall(account.address, stakeAmount, [
         {
@@ -49,7 +117,10 @@ export const useDappStaking = () => {
     }
   };
 
-  const unstake = async (contractAddress: string, amount: bigint) => {
+  const unstake = async (
+    contractAddress: string,
+    amount: bigint
+  ): Promise<void> => {
     if (account) {
       const unstakeCall = await getUnstakeCall(
         account.address,
@@ -78,5 +149,5 @@ export const useDappStaking = () => {
     context.setStakeInfo(stakeInfo);
   };
 
-  return { ...context, fetchStakeInfo, stake, unstake };
+  return { ...context, fetchStakeInfo, stake, unstake, claimStakerRewards };
 };

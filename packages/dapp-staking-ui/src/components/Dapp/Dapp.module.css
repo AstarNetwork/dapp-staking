@@ -13,3 +13,19 @@
     width: 80px;
   }
 }
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.images {
+  display: flex;
+  gap: 16px;
+}
+
+.image {
+  width: 150px;
+  border-radius: 8px;
+}
