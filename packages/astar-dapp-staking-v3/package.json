@@ -1,8 +1,15 @@
 {
   "name": "@astar-network/dapp-staking-v3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Astar dApp staking v3 library",
   "main": "build/index.js",
+  "homepage": "https://github.com/AstarNetwork/dapp-staking/tree/main/packages/astar-dapp-staking-v3#readme",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "directory": "packages/astar-dapp-staking-v3",
+    "type": "git",
+    "url": "https://github.com/AstarNetwork/dapp-staking.git"
+  },
   "publishConfig": {
     "access": "public"
   },
