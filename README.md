@@ -11,6 +11,9 @@ More info on dApp staking can be found in the [docs](https://docs.astar.network/
 
 `npm i`
 
+**Build the project**
+`npm run build`
+
 **Run test script**
 For ad hoc lib features testing
 
