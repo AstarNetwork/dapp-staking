@@ -16,7 +16,13 @@
   ],
   "references": [
     {
-      "path": "./packages/astar-dapp-staking-v3"
+      "path": "./packages/astar-dapp-staking-v3",
+    },
+    {
+      "path": "./packages/dapp-staking-components",
+    },
+    {
+      "path": "./packages/dapp-staking-ui",
     }
   ]
 }

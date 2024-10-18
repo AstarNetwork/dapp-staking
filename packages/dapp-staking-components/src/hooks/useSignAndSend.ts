@@ -2,23 +2,20 @@ import type { Null, Result } from "@polkadot/types-codec";
 import type { DispatchError, EventRecord } from "@polkadot/types/interfaces";
 import type { ITuple, Signer } from "@polkadot/types/types";
 import type { ExtrinsicPayload } from "@astar-network/dapp-staking-v3";
-import { useAccount } from "./useAccount";
 
-export const useSignAndSend = () => {
-  const { account, wallet } = useAccount();
-
+export const useSignAndSend = (signer: Signer, address: string) => {
   const signAndSend = async (
     call: ExtrinsicPayload,
     progressUpdateCallback: (isBusy: boolean, status: string) => void
   ): Promise<void> => {
-    if (!account || !wallet) {
+    if (!signer || !address) {
       throw new Error("Please connect your wallet and select account first.");
     }
 
     const unsubscribe = await call.signAndSend(
-      account.address,
+      address,
       {
-        signer: wallet.signer,
+        signer: signer,
         nonce: -1,
         withSignedTransaction: true,
       },
