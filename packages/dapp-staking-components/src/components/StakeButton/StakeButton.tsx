@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React from "react";
 import type { Signer } from "@polkadot/api/types";
 import {
   getStakeCall,
@@ -6,9 +6,8 @@ import {
   type StakeInfo,
 } from "@astar-network/dapp-staking-v3";
 import { useSignAndSend } from "@/hooks";
-import { on } from "events";
 
-type StakerComponentProps = {
+type StakeButtonProps = {
   stakerAddress: string;
   contractAddress: string;
   amountToStakeInWei: bigint;
@@ -18,7 +17,7 @@ type StakerComponentProps = {
   onError?: (message: string) => void;
 };
 
-const StakerComponent: React.FC<StakerComponentProps> = ({
+const StakeButton: React.FC<StakeButtonProps> = ({
   signer,
   stakerAddress,
   contractAddress,
@@ -26,8 +25,8 @@ const StakerComponent: React.FC<StakerComponentProps> = ({
   amountToLockInWei,
   onTransactionStateChange,
   onError,
-}: StakerComponentProps) => {
-  const { signAndSend } = useSignAndSend();
+}: StakeButtonProps) => {
+  const { signAndSend } = useSignAndSend(signer, stakerAddress);
 
   const handleStake = async () => {
     if (signer) {
@@ -49,11 +48,11 @@ const StakerComponent: React.FC<StakerComponentProps> = ({
         amountToLockInWei,
         stakeInfo
       );
-      await signAndSend(stakeCall, (isBusy, status) => {
+      await signAndSend(stakeCall, (isBusy: boolean, status: string) => {
         onTransactionStateChange?.(isBusy, status);
       });
     } else {
-      throw new Error("Please connect your wallet and select account first.");
+      throw new Error("Signer prop is required.");
     }
   };
 
@@ -64,10 +63,10 @@ const StakerComponent: React.FC<StakerComponentProps> = ({
           Stake
         </button>
       ) : (
-        "Please connect your wallet and select account first."
+        "Signer prop is required."
       )}
     </div>
   );
 };
 
-export default memo(StakerComponent);
+export default StakeButton;
