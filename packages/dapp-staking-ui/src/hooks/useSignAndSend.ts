@@ -1,10 +1,10 @@
 import type { Null, Result } from "@polkadot/types-codec";
 import type { DispatchError, EventRecord } from "@polkadot/types/interfaces";
-import type { ITuple } from "@polkadot/types/types";
+import type { ITuple, Signer } from "@polkadot/types/types";
 import type { ExtrinsicPayload } from "@astar-network/dapp-staking-v3";
 import { useAccount } from "./useAccount";
 
-export const useSignAndSend = () => {
+export const useSignAndSend = (signer: Signer) => {
   const { account, wallet } = useAccount();
 
   const signAndSend = async (
@@ -18,7 +18,7 @@ export const useSignAndSend = () => {
     const unsubscribe = await call.signAndSend(
       account.address,
       {
-        signer: wallet.signer,
+        signer: signer ?? wallet.signer,
         nonce: -1,
         withSignedTransaction: true,
       },

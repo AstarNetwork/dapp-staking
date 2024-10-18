@@ -6,9 +6,10 @@ import { canStake, canUnstake } from "@astar-network/dapp-staking-v3";
 import styles from "./Dapp.module.css";
 import { useAccount, useDappStaking } from "@/hooks";
 import InputWithButton from "../InputWithButton/InputWithButton";
+import StakeComponent from "../StakeComponent/StakeComponent";
 
 const Dapp = ({ dApp }: { dApp: DappModel }) => {
-  const { account } = useAccount();
+  const { account, wallet } = useAccount();
   const { stake, unstake } = useDappStaking();
 
   const validateStakeAmount = async (
@@ -48,6 +49,10 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
     }
   };
 
+  const handleProgress = (isBusy: boolean, status: string) => {
+    console.log(isBusy, status);
+  };
+
   return (
     <div className={styles.container}>
       <h4>{dApp.name}</h4>
@@ -61,7 +66,7 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
         ))}
       </div>
       <div>{dApp.description}</div>
-      {account && (
+      {account && wallet && (
         <div className={styles.inputs}>
           <InputWithButton
             buttonText="Stake"
@@ -73,6 +78,17 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
             validateAmount={validateUnstakeAmount}
             onButtonClick={handleUnstake}
           />
+          {wallet.signer && (
+            <StakeComponent
+              signer={wallet.signer}
+              stakerAddress={account.address}
+              contractAddress={dApp.address}
+              amountToLockInWei={BigInt("5000000000000000000")}
+              amountToStakeInWei={BigInt("5000000000000000000")}
+              onTransactionStateChange={handleProgress}
+              onError={(message) => console.error(message)}
+            />
+          )}
         </div>
       )}
     </div>
