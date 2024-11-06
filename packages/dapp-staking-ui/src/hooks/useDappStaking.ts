@@ -10,13 +10,13 @@ import {
   subscribeToProtocolStateChanges,
   getClaimStakerRewardsCall,
   getAccountLedger,
+  getClaimUnlockedCall,
 } from "@astar-network/dapp-staking-v3";
 import { useSignAndSend } from "./useSignAndSend";
 import { errorToast, infoToast, successToast } from "@/app/toast";
 import { useApi } from "./useApi";
 import { batchCalls } from "@astar-network/dapp-staking-v3/utils";
 import toast from "react-hot-toast";
-import { getClaimUnlockedCall } from "../../../astar-dapp-staking-v3/build/logic/unstake";
 
 let isHookInitialized = false;
 

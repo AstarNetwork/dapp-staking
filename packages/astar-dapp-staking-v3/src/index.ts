@@ -17,7 +17,11 @@ export {
 
 export { getStakeCall, canStake } from "./logic/stake";
 
-export { getUnstakeCall, canUnstake } from "./logic/unstake";
+export {
+  getUnstakeCall,
+  canUnstake,
+  getClaimUnlockedCall,
+} from "./logic/unstake";
 
 export { initApi } from "./utils";
 
