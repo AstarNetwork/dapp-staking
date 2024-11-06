@@ -37,20 +37,25 @@ const StakeButton: React.FC<StakeButtonProps> = ({
         },
       ];
 
-      const [result, error] = await canStake(stakerAddress, stakeInfo);
-      if (!result) {
-        onError?.(error);
-        return;
-      }
+      try {
+        const [result, error] = await canStake(stakerAddress, stakeInfo);
+        if (!result) {
+          onError?.(error);
+          return;
+        }
 
-      const stakeCall = await getStakeCall(
-        stakerAddress,
-        amountToLockInWei,
-        stakeInfo
-      );
-      await signAndSend(stakeCall, (isBusy: boolean, status: string) => {
-        onTransactionStateChange?.(isBusy, status);
-      });
+        const stakeCall = await getStakeCall(
+          stakerAddress,
+          amountToLockInWei,
+          stakeInfo
+        );
+        await signAndSend(stakeCall, (isBusy: boolean, status: string) => {
+          onTransactionStateChange?.(isBusy, status);
+        });
+      } catch (error) {
+        const e = error as Error;
+        onError?.(e.message);
+      }
     } else {
       throw new Error("Signer prop is required.");
     }

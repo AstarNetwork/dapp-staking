@@ -79,7 +79,7 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
             validateAmount={validateUnstakeAmount}
             onButtonClick={handleUnstake}
           />
-          {wallet.signer && (
+          {/* {wallet.signer && (
             <StakeButton
               signer={wallet.signer}
               stakerAddress={account.address}
@@ -89,7 +89,7 @@ const Dapp = ({ dApp }: { dApp: DappModel }) => {
               onTransactionStateChange={(_, status) => infoToast(status)}
               onError={(message: string) => errorToast(message)}
             />
-          )}
+          )} */}
         </div>
       )}
     </div>

@@ -4,6 +4,16 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "homepage": "https://github.com/AstarNetwork/dapp-staking/tree/main/packages/dapp-staking-components#readme",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "directory": "packages/dapp-staking-components",
+    "type": "git",
+    "url": "https://github.com/AstarNetwork/dapp-staking.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": "./dist/index.js"
   },
@@ -13,7 +23,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

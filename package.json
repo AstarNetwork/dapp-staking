@@ -11,7 +11,9 @@
     "start": "ts-node src/index.ts",
     "start:ui": "npm run build && npm run dev --workspace ./packages/dapp-staking-ui",
     "pack:staking": "npm build & npm pack --workspace ./packages/astar-dapp-staking-v3 --pack-destination ./packages/astar-dapp-staking-v3",
+    "pack:components": "npm build & npm pack --workspace ./packages/dapp-staking-components --pack-destination ./packages/dapp-staking-components",
     "publish:staking": "npm build & npm publish --workspace ./packages/astar-dapp-staking-v3",
+    "publish:components": "npm build & npm publish --workspace ./packages/dapp-staking-components",
     "docgen:staking": "npm run docs  --workspace ./packages/astar-dapp-staking-v3",
     "test:staking": "npm run build & npm run test --workspace ./packages/astar-dapp-staking-v3-test"
   },
