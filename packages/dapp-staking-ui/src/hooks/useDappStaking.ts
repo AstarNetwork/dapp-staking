@@ -11,6 +11,7 @@ import {
   getClaimStakerRewardsCall,
   getAccountLedger,
   getClaimUnlockedCall,
+  getClaimBonusRewardsCalls,
 } from "@astar-network/dapp-staking-v3";
 import { useSignAndSend } from "./useSignAndSend";
 import { errorToast, infoToast, successToast } from "@/app/toast";
@@ -75,7 +76,16 @@ export const useDappStaking = () => {
 
   const claimStakerRewards = async (): Promise<void> => {
     if (account) {
-      const claimCall = await getClaimStakerRewardsCall(account.address);
+      await claimStakerRewardsFor(account.address);
+    }
+  };
+
+  const claimStakerRewardsFor = async (
+    stakerAddress: string,
+    claimedCallback?: () => void
+  ): Promise<void> => {
+    if (account) {
+      const claimCall = await getClaimStakerRewardsCall(stakerAddress);
       if (claimCall.length === 0) {
         toast.error("No rewards to claim.");
         return;
@@ -90,6 +100,37 @@ export const useDappStaking = () => {
           if (!isBusy) {
             successToast("Claim staker rewards successful");
             fetchRewards();
+            claimedCallback?.();
+          }
+        });
+      } catch (error) {
+        const e = error as Error;
+        errorToast(e.message);
+      }
+    }
+  };
+
+  const claimBonusRewardsFor = async (
+    stakerAddress: string,
+    claimedCallback?: () => void
+  ): Promise<void> => {
+    if (account) {
+      const claimCall = await getClaimBonusRewardsCalls(stakerAddress);
+      if (claimCall.length === 0) {
+        toast.error("No rewards to claim.");
+        return;
+      }
+
+      const batch = await batchCalls(claimCall);
+
+      try {
+        await signAndSend(batch, (isBusy, status) => {
+          status && infoToast(status);
+
+          if (!isBusy) {
+            successToast("Claim bonus rewards successful");
+            fetchRewards();
+            claimedCallback?.();
           }
         });
       } catch (error) {
@@ -187,7 +228,11 @@ export const useDappStaking = () => {
     stake,
     unstake,
     claimStakerRewards,
+    claimStakerRewardsFor,
+    claimBonusRewardsFor,
     fetchAccountLedger,
     claimUnlocked,
+    getStakerRewards,
+    getBonusRewards,
   };
 };

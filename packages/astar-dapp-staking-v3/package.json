@@ -1,6 +1,6 @@
 {
   "name": "@astar-network/dapp-staking-v3",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Astar dApp staking v3 library",
   "main": "build/index.js",
   "homepage": "https://github.com/AstarNetwork/dapp-staking/tree/main/packages/astar-dapp-staking-v3#readme",

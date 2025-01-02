@@ -34,7 +34,7 @@ export async function getClaimStakerRewardsCalls(
   const api = await getApi();
   const calls = Array(numberOfClaimCalls)
     .fill(0)
-    .map(() => api.tx.dappStaking.claimStakerRewards());
+    .map(() => api.tx.dappStaking.claimStakerRewardsFor(stakerAddress));
 
   return calls;
 }
@@ -212,7 +212,10 @@ export async function getClaimBonusRewardsCalls(
   const api = await getApi();
   const contractAddresses = [...result.contractsToClaim.keys()];
   return contractAddresses.map((address) =>
-    api.tx.dappStaking.claimBonusReward(getDappAddressEnum(address))
+    api.tx.dappStaking.claimBonusRewardFor(
+      stakerAddress,
+      getDappAddressEnum(address)
+    )
   );
 }
 

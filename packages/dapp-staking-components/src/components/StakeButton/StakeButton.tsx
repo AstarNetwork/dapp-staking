@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import type { Signer } from "@polkadot/api/types";
 import {
   getStakeCall,

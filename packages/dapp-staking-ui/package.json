@@ -6,14 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "vercel"
   },
   "dependencies": {
     "@polkadot-onboard/core": "^1.1.0",
     "@polkadot-onboard/injected-wallets": "^1.1.0",
     "@polkadot-onboard/react": "^1.1.0",
     "@astar-network/dapp-staking-components": "^1.0.0",
-    "@astar-network/dapp-staking-v3": "^1.0.2",
+    "@astar-network/dapp-staking-v3": "^1.0.3",
     "next": "^14.2.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
